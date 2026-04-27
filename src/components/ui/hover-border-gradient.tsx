@@ -13,6 +13,21 @@ type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
 const DIRECTIONS: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
 
+// Hoisted at module scope: these are pure constants (CSS strings), so building
+// them on every render is wasted work. Vercel rule `rendering-hoist-jsx` /
+// `js-cache-function-results`.
+const ACCENT = "var(--color-accent, #8e6a36)";
+const ACCENT_TRANSPARENT = "rgba(142,106,54,0)";
+
+const MOVING_MAP: Record<Direction, string> = {
+  TOP: `radial-gradient(22% 50% at 50% 0%, ${ACCENT} 0%, ${ACCENT_TRANSPARENT} 100%)`,
+  LEFT: `radial-gradient(18% 44% at 0% 50%, ${ACCENT} 0%, ${ACCENT_TRANSPARENT} 100%)`,
+  BOTTOM: `radial-gradient(22% 50% at 50% 100%, ${ACCENT} 0%, ${ACCENT_TRANSPARENT} 100%)`,
+  RIGHT: `radial-gradient(18% 44% at 100% 50%, ${ACCENT} 0%, ${ACCENT_TRANSPARENT} 100%)`,
+};
+
+const HIGHLIGHT = `radial-gradient(80% 180% at 50% 50%, var(--color-accent-soft, #b08e54) 0%, ${ACCENT_TRANSPARENT} 100%)`;
+
 // Aceternity-UI's "hover border gradient" adapted to 149 Arquitectura's
 // system: no border-radius, gold accent (instead of blue), and on-brand
 // surface colors. The animated gradient travels along the rectangular
@@ -39,21 +54,6 @@ export function HoverBorderGradient({
   const [direction, setDirection] = useState<Direction>("TOP");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Gold accent #c8a96e and warm fg #f0ede8 read clearly on bg-ink.
-  // Each gradient is positioned at one of the 4 sides of the rect.
-  const movingMap: Record<Direction, string> = {
-    TOP: "radial-gradient(22% 50% at 50% 0%, #c8a96e 0%, rgba(200,169,110,0) 100%)",
-    LEFT: "radial-gradient(18% 44% at 0% 50%, #c8a96e 0%, rgba(200,169,110,0) 100%)",
-    BOTTOM:
-      "radial-gradient(22% 50% at 50% 100%, #c8a96e 0%, rgba(200,169,110,0) 100%)",
-    RIGHT:
-      "radial-gradient(18% 44% at 100% 50%, #c8a96e 0%, rgba(200,169,110,0) 100%)",
-  };
-
-  // Hover state: a softer, larger highlight centered on the element.
-  const highlight =
-    "radial-gradient(80% 180% at 50% 50%, rgba(232,213,168,0.65) 0%, rgba(200,169,110,0) 100%)";
-
   useEffect(() => {
     if (hovered) {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -79,7 +79,7 @@ export function HoverBorderGradient({
       onMouseLeave={() => setHovered(false)}
       className={cn(
         // No rounded-*: project rule is zero border-radius.
-        "relative inline-flex w-fit items-center justify-center overflow-hidden border border-line-subtle bg-ink/40 p-px transition-colors duration-500 hover:bg-accent-dim",
+        "relative inline-flex w-fit items-center justify-center overflow-hidden border border-line p-px transition-colors duration-500 hover:bg-accent-dim",
         containerClassName,
       )}
       {...props}
@@ -101,9 +101,9 @@ export function HoverBorderGradient({
         style={{
           filter: "blur(2px)",
         }}
-        initial={{ background: movingMap[direction] }}
+        initial={{ background: MOVING_MAP[direction] }}
         animate={{
-          background: hovered ? highlight : movingMap[direction],
+          background: hovered ? HIGHLIGHT : MOVING_MAP[direction],
         }}
         transition={{ ease: "linear", duration }}
       />

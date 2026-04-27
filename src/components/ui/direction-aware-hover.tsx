@@ -9,7 +9,7 @@ type Props = {
   imageAlt?: string;
   imageWidth?: number;
   imageHeight?: number;
-  children: ReactNode;
+  children?: ReactNode;
   childrenClassName?: string;
   imageClassName?: string;
   className?: string;
@@ -57,10 +57,11 @@ export function DirectionAwareHover({
           whileHover={direction}
           exit="exit"
         >
-          {/* Dark scrim that fades in on hover */}
+          {/* Dark scrim that fades in on hover (independent of light/dark theme) */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-10 bg-ink/55 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+            className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+            style={{ background: "var(--color-scrim)" }}
           />
 
           {/* Image — slightly oversized so the directional pan has room */}
@@ -85,17 +86,22 @@ export function DirectionAwareHover({
             />
           </motion.div>
 
-          {/* Reveal content — slides in from the cursor side on hover */}
-          <motion.div
-            variants={textVariants}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className={cn(
-              "pointer-events-none absolute inset-x-0 bottom-0 z-20 p-6 text-fg md:p-8",
-              childrenClassName,
-            )}
-          >
-            {children}
-          </motion.div>
+          {/* Reveal content — slides in from the cursor side on hover.
+              Forced bone-cream text so it reads over the dark scrim
+              regardless of the page palette. */}
+          {children ? (
+            <motion.div
+              variants={textVariants}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className={cn(
+                "pointer-events-none absolute inset-x-0 bottom-0 z-20 p-6 md:p-8",
+                childrenClassName,
+              )}
+              style={{ color: "#f0eadb" }}
+            >
+              {children}
+            </motion.div>
+          ) : null}
         </motion.div>
       </AnimatePresence>
     </motion.div>

@@ -20,25 +20,23 @@ function ProjectCard({ p, ratio }: { p: Proyecto; ratio: string }) {
         <DirectionAwareHover
           imageUrl={p.imagen}
           imageAlt={`${p.titulo}, ${p.ciudad}`}
-        >
-          <div className="font-mono text-[0.72rem] tracking-widest text-accent">
-            {p.numero}
-          </div>
-          <h3 className="font-display mt-2 text-2xl text-fg sm:text-3xl md:text-4xl">
-            {p.titulo}
-          </h3>
-        </DirectionAwareHover>
+        />
       </div>
 
-      <div className="mt-4 flex items-start justify-between gap-4 sm:mt-5 sm:gap-6">
-        <div className="font-mono text-[0.7rem] tracking-widest text-fg-muted">
+      {/* Always-visible project metadata — clean editorial layout below the image */}
+      <div className="mt-6 grid grid-cols-12 items-start gap-x-4 gap-y-3 sm:mt-7">
+        <div className="font-mono col-span-12 text-[0.7rem] tracking-[0.28em] text-accent">
           {p.numero}
         </div>
-        <div className="text-right">
+        <h3 className="font-display col-span-8 text-2xl font-light leading-[1.05] text-fg sm:col-span-9 sm:text-3xl">
+          {p.titulo}
+        </h3>
+        <div className="col-span-4 text-right sm:col-span-3">
           <div className="label-eyebrow">{p.categoria}</div>
-          <div className="font-mono mt-2 text-xs text-fg-muted">
-            {p.ano} · {p.ciudad}
-          </div>
+          <div className="font-mono mt-2 text-xs text-fg-muted">{p.ano}</div>
+        </div>
+        <div className="font-mono col-span-12 text-[0.66rem] tracking-[0.28em] uppercase text-fg-muted">
+          {p.ciudad}
         </div>
       </div>
     </a>

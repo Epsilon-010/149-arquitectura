@@ -193,7 +193,8 @@ export function Contacto() {
                 href={MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-4 transition-colors duration-700 hover:text-accent"
+                style={{ touchAction: "manipulation" }}
+                className="group flex items-start gap-4 transition-colors duration-700 hover:text-accent active:text-accent"
               >
                 <MapPinIcon className="mt-1 shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
                 <div>
@@ -231,7 +232,8 @@ export function Contacto() {
               <div className="grid gap-5 border-t border-line-subtle pt-8">
                 <a
                   href={`tel:${PHONE_TEL}`}
-                  className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent"
+                  style={{ touchAction: "manipulation" }}
+                className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent active:text-accent"
                 >
                   <PhoneIcon className="shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
                   <span className="link-underline font-mono text-sm text-fg group-hover:text-accent">
@@ -240,7 +242,8 @@ export function Contacto() {
                 </a>
                 <a
                   href={`mailto:${MAIL}`}
-                  className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent"
+                  style={{ touchAction: "manipulation" }}
+                className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent active:text-accent"
                 >
                   <MailIcon className="shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
                   <span className="link-underline text-fg group-hover:text-accent">
@@ -251,7 +254,8 @@ export function Contacto() {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent"
+                  style={{ touchAction: "manipulation" }}
+                className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent active:text-accent"
                 >
                   <InstagramIcon className="shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
                   <span className="link-underline text-fg group-hover:text-accent">

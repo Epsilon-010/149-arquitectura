@@ -10,25 +10,28 @@
      --shadow-X           → shadow-X (n/a here)
    ========================================================= */
 @theme {
-  /* Backgrounds */
-  --color-ink: #080809;             /* Negro arquitectónico — fondo base */
-  --color-surface: #0f0f12;         /* Superficie elevada */
-  --color-elevated: #16161c;        /* Cards, paneles */
-  --color-overlay: rgba(8, 8, 9, 0.85); /* Overlay del nav, modales */
+  /* Backgrounds — bone / warm cream (no pure white) */
+  --color-ink: #f0eadb;             /* Cream cálido — fondo base */
+  --color-surface: #e7decb;         /* Superficie elevada */
+  --color-elevated: #dad1b8;        /* Cards, paneles */
+  --color-overlay: rgba(240, 234, 219, 0.88); /* Nav, modales */
 
-  /* Acento (oro apagado) */
-  --color-accent: #c8a96e;          /* Único color con saturación visible */
-  --color-accent-soft: #e8d5a8;     /* Hover */
-  --color-accent-dim: rgba(200, 169, 110, 0.12); /* Tinte suave para fondos */
+  /* Acento (oro envejecido — más oscuro para contrastar sobre cream) */
+  --color-accent: #8e6a36;          /* Aged gold — AA contrast on cream */
+  --color-accent-soft: #b08e54;     /* Hover, lighter */
+  --color-accent-dim: rgba(142, 106, 54, 0.10); /* Tinte para fondos */
 
-  /* Foreground (texto) */
-  --color-fg: #f0ede8;              /* Blanco cálido — texto principal */
-  --color-fg-muted: #8a8780;        /* Gris cálido — subtítulos */
-  --color-fg-faint: #4a4845;        /* Decorativo, copyright, etc. */
+  /* Foreground — warm near-black (no negro 100%) */
+  --color-fg: #1c1813;              /* Charcoal cálido — texto principal */
+  --color-fg-muted: #6e6757;        /* Gris cálido — subtítulos */
+  --color-fg-faint: #a8a294;        /* Decorativo, copyright */
 
-  /* Líneas (1px borders) */
-  --color-line: rgba(200, 169, 110, 0.15);     /* Borde dorado tenue */
-  --color-line-subtle: rgba(240, 237, 232, 0.06); /* Borde blanco casi invisible */
+  /* Líneas */
+  --color-line: rgba(142, 106, 54, 0.22);  /* Borde dorado tenue */
+  --color-line-subtle: rgba(28, 24, 19, 0.10); /* Borde oscuro tenue */
+
+  /* Scrim — overlay oscuro semitranslúcido para texto sobre imagen */
+  --color-scrim: rgba(28, 24, 19, 0.55);
 
   /* Tipografía */
   --font-display: "Cormorant Garamond", Georgia, serif;
@@ -135,13 +138,13 @@ body {
    Quiet luxury: filter shift only. No scale, no zoom.
    ========================================================= */
 .media-grayscale {
-  filter: grayscale(100%) contrast(1.05) brightness(0.85);
+  filter: grayscale(100%) contrast(1.02) brightness(0.96);
   transition: filter 0.9s var(--ease-luxury);
 }
 
 .media-grayscale:hover,
 .group:hover .media-grayscale {
-  filter: grayscale(0%) contrast(1) brightness(0.95);
+  filter: grayscale(0%) contrast(1) brightness(1);
 }
 
 /* =========================================================

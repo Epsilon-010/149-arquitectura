@@ -2,43 +2,41 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "../../lib/motion";
 import {
-  AnimatedTestimonials,
-  type ProjectSlide,
-} from "../ui/animated-testimonials";
+  ProjectCarousel,
+  type CarouselSlide,
+} from "../ui/ProjectCarousel";
 
-// Placeholder slides — Unsplash. Cuando tengas los renders del estudio
-// reemplaza `src` por `/proyectos/<slug>.webp`.
-const HERO_SLIDES: ProjectSlide[] = [
+const HERO_SLIDES: CarouselSlide[] = [
   {
     numero: "149.024",
     titulo: "Casa Pedregal",
-    meta: "Residencial · Oaxaca · 2024",
-    descripcion:
-      "Una vivienda contemporánea que dialoga con el contexto. Luz, materia y proporción en equilibrio.",
+    categoria: "Residencial",
+    ciudad: "Oaxaca",
+    ano: 2024,
     src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
   },
   {
     numero: "149.022",
     titulo: "Atelier Centro",
-    meta: "Interiorismo · Oaxaca · 2023",
-    descripcion:
-      "Intervención de un espacio histórico. Mobiliario a medida y carpintería local diseñados para el lugar.",
+    categoria: "Interiorismo",
+    ciudad: "Oaxaca",
+    ano: 2023,
     src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80",
   },
   {
     numero: "149.019",
     titulo: "Pabellón Valle",
-    meta: "Residencial · Valle de Bravo · 2022",
-    descripcion:
-      "Un volumen único que se inserta en el paisaje. Concreto pulido, madera y vidrio del piso al techo.",
+    categoria: "Residencial",
+    ciudad: "Valle de Bravo",
+    ano: 2022,
     src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
   },
   {
     numero: "149.017",
     titulo: "Hotel Costera",
-    meta: "Hospitalidad · Tulum · 2022",
-    descripcion:
-      "Hospitalidad de bajo perfil. Trece llaves discretas integradas en la vegetación del trópico.",
+    categoria: "Hospitalidad",
+    ciudad: "Tulum",
+    ano: 2022,
     src: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1600&q=80",
   },
 ];
@@ -75,7 +73,7 @@ export function Hero() {
       }
 
       gsap.set(all, { opacity: 0, y: 32 });
-      gsap.set(carouselWrapRef.current, { opacity: 0, y: 80, scale: 1.03 });
+      gsap.set(carouselWrapRef.current, { opacity: 0, y: 64, scale: 1.02 });
 
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
       tl.to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.9 }, 0)
@@ -84,7 +82,7 @@ export function Hero() {
         .to(lineTwoRef.current, { opacity: 1, y: 0, duration: 1.4 }, 0.25)
         .to(
           carouselWrapRef.current,
-          { opacity: 1, y: 0, scale: 1, duration: 1.6 },
+          { opacity: 1, y: 0, scale: 1, duration: 1.5 },
           0.4,
         )
         .to(taglineRef.current, { opacity: 1, y: 0, duration: 1.0 }, "-=1.0");
@@ -98,12 +96,13 @@ export function Hero() {
       ref={sectionRef}
       className="relative isolate overflow-hidden bg-ink"
     >
+      {/* Subtle gold halo behind the carousel — barely there */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-[35%] z-0 mx-auto h-[60vw] max-h-[700px] w-[70%] bg-[radial-gradient(ellipse_at_center,rgba(200,169,110,0.06),transparent_65%)]"
+        className="pointer-events-none absolute inset-x-0 top-[40%] z-0 mx-auto h-[55vw] max-h-[600px] w-[70%] bg-[radial-gradient(ellipse_at_center,rgba(142,106,54,0.07),transparent_65%)]"
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-12 px-5 pt-28 pb-16 sm:px-6 sm:gap-14 sm:pt-32 md:gap-16 md:px-10 md:pb-20">
+      <div className="relative mx-auto flex w-full max-w-[1500px] flex-col gap-16 px-5 pt-28 pb-14 sm:px-6 sm:gap-20 sm:pt-32 md:gap-28 md:px-10 md:pb-20">
         {/* ===== Top: headline + eyebrow / CTA ===== */}
         <div className="grid grid-cols-12 items-start gap-x-6 gap-y-6">
           <h1 className="font-display col-span-12 text-fg lg:col-span-9">
@@ -111,7 +110,7 @@ export function Hero() {
               ref={lineOneRef}
               className="block leading-[0.86]"
               style={{
-                fontSize: "clamp(2.75rem, 9.5vw, 9.5rem)",
+                fontSize: "clamp(2.5rem, 8.5vw, 8.5rem)",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -121,7 +120,7 @@ export function Hero() {
               ref={lineTwoRef}
               className="block leading-[0.86] italic text-fg-muted"
               style={{
-                fontSize: "clamp(2.75rem, 9.5vw, 9.5rem)",
+                fontSize: "clamp(2.5rem, 8.5vw, 8.5rem)",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -129,7 +128,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <div className="col-span-12 flex flex-col items-start gap-6 lg:col-span-3 lg:items-end">
+          <div className="col-span-12 flex flex-col items-start gap-5 lg:col-span-3 lg:items-end">
             <div ref={eyebrowRef} className="max-w-[14ch] lg:text-right">
               <p className="font-mono text-[0.72rem] tracking-widest uppercase leading-relaxed text-fg-muted">
                 Estudio · Activo
@@ -148,14 +147,17 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ===== Project carousel — autoplay every 5.5s, pauses on hover ===== */}
-        <div ref={carouselWrapRef}>
-          <AnimatedTestimonials slides={HERO_SLIDES} autoplay interval={5500} />
+        {/* ===== Project carousel — autoplay loop, smaller footprint ===== */}
+        <div
+          ref={carouselWrapRef}
+          className="mx-auto w-full max-w-[1340px]"
+        >
+          <ProjectCarousel slides={HERO_SLIDES} interval={5000} />
         </div>
 
         {/* ===== Bottom: tagline + portfolio link ===== */}
-        <div ref={taglineRef} className="grid grid-cols-12 gap-x-6 gap-y-4">
-          <p className="font-display col-span-12 text-xl leading-[1.2] text-fg md:col-span-7 md:text-2xl">
+        <div ref={taglineRef} className="grid grid-cols-12 gap-x-6 gap-y-3">
+          <p className="font-display col-span-12 text-xl leading-[1.2] text-fg sm:text-2xl md:col-span-7">
             Estudio de arquitectura contemporánea desde Oaxaca.
             <span className="text-fg-muted"> Un solo estándar — el más alto.</span>
           </p>

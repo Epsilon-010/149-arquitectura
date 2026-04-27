@@ -3,7 +3,6 @@ const INSTAGRAM_URL =
 const WHATSAPP_URL =
   "https://wa.me/5219513505166?text=Hola%2C%20me%20gustar%C3%ADa%20una%20consulta%20con%20149%20Arquitectura.";
 const MAIL = "estudio@149arquitectura.mx";
-const PHONE_TEL = "+5219513505166";
 
 const SOCIAL = [
   {
@@ -12,8 +11,8 @@ const SOCIAL = [
     external: true,
     icon: (
       <svg
-        width="18"
-        height="18"
+        width="16"
+        height="16"
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"
@@ -28,8 +27,8 @@ const SOCIAL = [
     external: true,
     icon: (
       <svg
-        width="18"
-        height="18"
+        width="15"
+        height="15"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -45,33 +44,13 @@ const SOCIAL = [
     ),
   },
   {
-    label: "Teléfono",
-    href: `tel:${PHONE_TEL}`,
-    external: false,
-    icon: (
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
-      </svg>
-    ),
-  },
-  {
     label: "Correo",
     href: `mailto:${MAIL}`,
     external: false,
     icon: (
       <svg
-        width="18"
-        height="18"
+        width="15"
+        height="15"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -92,87 +71,42 @@ export function Footer() {
 
   return (
     <footer className="border-t border-line-subtle bg-surface">
-      <div className="mx-auto grid max-w-7xl grid-cols-12 gap-y-10 px-5 py-16 sm:gap-y-12 sm:px-6 sm:py-20 md:gap-x-6 md:px-10">
-        <div className="col-span-12 md:col-span-5">
-          <div className="flex items-baseline gap-3">
-            <span className="font-display text-5xl text-fg">149</span>
-            <span className="label-eyebrow">arquitectura</span>
-          </div>
-          <p className="mt-6 max-w-sm text-fg-muted">
-            Estudio de arquitectura contemporánea desde Oaxaca. Un solo
-            estándar.
-          </p>
-
-          {/* Social icon row — responsive friendly, all 44px touch targets */}
-          <ul className="mt-8 flex flex-wrap gap-3" aria-label="Redes y contacto">
-            {SOCIAL.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target={s.external ? "_blank" : undefined}
-                  rel={s.external ? "noopener noreferrer" : undefined}
-                  aria-label={s.label}
-                  title={s.label}
-                  className="flex h-11 w-11 items-center justify-center border border-line-subtle text-fg-muted transition-colors duration-500 hover:border-accent hover:text-accent"
-                >
-                  {s.icon}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <nav
-          className="col-span-6 md:col-span-3 md:col-start-7"
-          aria-label="Navegación del pie"
+      <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 py-10 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-10 md:px-10 md:py-8">
+        {/* Brand mark */}
+        <a
+          href="#top"
+          className="flex items-baseline gap-3"
+          aria-label="149 Arquitectura — volver al inicio"
         >
-          <div className="label-eyebrow mb-6">Sitio</div>
-          <ul className="flex flex-col gap-4">
-            {[
-              ["Estudio", "#filosofia"],
-              ["Proyectos", "#proyectos"],
-              ["Servicios", "#servicios"],
-              ["Contacto", "#contacto"],
-            ].map(([label, href]) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  className="link-underline text-fg hover:text-accent"
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <span className="font-display text-3xl text-fg">149</span>
+          <span className="label-eyebrow">arquitectura</span>
+        </a>
 
-        <div className="col-span-6 md:col-span-3">
-          <div className="label-eyebrow mb-6">Contacto</div>
-          <ul className="flex flex-col gap-4 text-fg">
-            <li>
+        {/* Compact social row */}
+        <ul className="flex items-center gap-2" aria-label="Redes y contacto">
+          {SOCIAL.map((s) => (
+            <li key={s.label}>
               <a
-                href={`mailto:${MAIL}`}
-                className="link-underline wrap-break-word hover:text-accent"
+                href={s.href}
+                target={s.external ? "_blank" : undefined}
+                rel={s.external ? "noopener noreferrer" : undefined}
+                aria-label={s.label}
+                title={s.label}
+                style={{ touchAction: "manipulation" }}
+                className="flex h-9 w-9 items-center justify-center border border-line-subtle text-fg-muted transition-colors duration-500 hover:border-accent hover:text-accent active:border-accent active:text-accent active:bg-accent-dim"
               >
-                {MAIL}
+                {s.icon}
               </a>
             </li>
-            <li className="font-mono text-sm text-fg-muted">+52 951 350 5166</li>
-            <li className="text-sm leading-relaxed text-fg-muted">
-              Niños Héroes 635-B
-              <br />
-              Ex-Marquezado, Oaxaca
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
 
-        <div className="col-span-12 mt-10 flex flex-col items-start justify-between gap-4 border-t border-line-subtle pt-10 md:flex-row md:items-center">
-          <span className="font-mono text-xs text-fg-faint">
-            © {year} — 149 Arquitectura · Oaxaca de Juárez, México
-          </span>
-          <span className="font-mono text-xs text-fg-faint">
-            Aviso de privacidad · Términos
-          </span>
+        {/* Copyright + legal — single line */}
+        <div className="flex flex-col gap-2 font-mono text-[0.68rem] tracking-[0.2em] text-fg-faint sm:flex-row sm:items-center sm:gap-6 md:items-center">
+          <span>© {year} · 149 Arquitectura · Oaxaca, MX</span>
+          <a href="#" className="link-underline hover:text-fg">
+            Aviso de privacidad
+          </a>
         </div>
       </div>
     </footer>

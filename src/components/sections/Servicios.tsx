@@ -28,15 +28,15 @@ export function Servicios() {
                 key={s.n}
                 as="li"
                 delay={(i % 4) as 0 | 1 | 2 | 3}
-                className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-3 border-t border-line-subtle py-8 last:border-b sm:gap-x-6 md:py-10"
+                className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-3 border-t border-line-subtle py-10 last:border-b sm:gap-x-6 md:py-14"
               >
-                <span className="font-mono col-span-2 text-xs text-accent sm:text-sm md:col-span-1">
+                <span className="font-mono col-span-2 text-[0.72rem] tracking-[0.28em] text-accent md:col-span-1">
                   {s.n}
                 </span>
-                <h3 className="font-display col-span-10 text-2xl text-fg sm:text-3xl md:col-span-4 md:text-4xl">
+                <h3 className="font-display col-span-10 text-2xl font-light text-fg sm:text-3xl md:col-span-4 md:text-[2.5rem] md:leading-none">
                   {s.titulo}
                 </h3>
-                <p className="col-span-12 text-sm text-fg-muted transition-colors duration-700 group-hover:text-fg md:col-span-7 md:text-base">
+                <p className="col-span-12 text-sm leading-relaxed text-fg-muted transition-colors duration-1000 ease-out group-hover:text-fg md:col-span-7 md:text-base">
                   {s.desc}
                 </p>
               </Reveal>
