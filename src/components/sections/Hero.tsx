@@ -152,7 +152,7 @@ export function Hero() {
           ref={carouselWrapRef}
           className="mx-auto w-full max-w-[1340px]"
         >
-          <ProjectCarousel slides={HERO_SLIDES} interval={5000} />
+          <ProjectCarousel slides={HERO_SLIDES} interval={3500} />
         </div>
 
         {/* ===== Bottom: tagline + portfolio link ===== */}
