@@ -1,9 +1,47 @@
 import { useEffect, useRef, useState } from "react";
-import Tilt from "react-parallax-tilt";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "../../lib/motion";
+import {
+  AnimatedTestimonials,
+  type ProjectSlide,
+} from "../ui/animated-testimonials";
 
-const HERO_CASA = "/proyectos/casa-Photoroom.webp";
+// Placeholder slides — Unsplash. Cuando tengas los renders del estudio
+// reemplaza `src` por `/proyectos/<slug>.webp`.
+const HERO_SLIDES: ProjectSlide[] = [
+  {
+    numero: "149.024",
+    titulo: "Casa Pedregal",
+    meta: "Residencial · Oaxaca · 2024",
+    descripcion:
+      "Una vivienda contemporánea que dialoga con el contexto. Luz, materia y proporción en equilibrio.",
+    src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    numero: "149.022",
+    titulo: "Atelier Centro",
+    meta: "Interiorismo · Oaxaca · 2023",
+    descripcion:
+      "Intervención de un espacio histórico. Mobiliario a medida y carpintería local diseñados para el lugar.",
+    src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    numero: "149.019",
+    titulo: "Pabellón Valle",
+    meta: "Residencial · Valle de Bravo · 2022",
+    descripcion:
+      "Un volumen único que se inserta en el paisaje. Concreto pulido, madera y vidrio del piso al techo.",
+    src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    numero: "149.017",
+    titulo: "Hotel Costera",
+    meta: "Hospitalidad · Tulum · 2022",
+    descripcion:
+      "Hospitalidad de bajo perfil. Trece llaves discretas integradas en la vegetación del trópico.",
+    src: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1600&q=80",
+  },
+];
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -11,7 +49,7 @@ export function Hero() {
   const lineTwoRef = useRef<HTMLSpanElement | null>(null);
   const eyebrowRef = useRef<HTMLDivElement | null>(null);
   const ctaRef = useRef<HTMLAnchorElement | null>(null);
-  const imageWrapRef = useRef<HTMLDivElement | null>(null);
+  const carouselWrapRef = useRef<HTMLDivElement | null>(null);
   const taglineRef = useRef<HTMLDivElement | null>(null);
 
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -28,7 +66,7 @@ export function Hero() {
         ctaRef.current,
         lineOneRef.current,
         lineTwoRef.current,
-        imageWrapRef.current,
+        carouselWrapRef.current,
         taglineRef.current,
       ];
       if (reduceMotion) {
@@ -37,7 +75,7 @@ export function Hero() {
       }
 
       gsap.set(all, { opacity: 0, y: 32 });
-      gsap.set(imageWrapRef.current, { opacity: 0, y: 80, scale: 1.04 });
+      gsap.set(carouselWrapRef.current, { opacity: 0, y: 80, scale: 1.03 });
 
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
       tl.to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.9 }, 0)
@@ -45,8 +83,8 @@ export function Hero() {
         .to(lineOneRef.current, { opacity: 1, y: 0, duration: 1.4 }, 0.1)
         .to(lineTwoRef.current, { opacity: 1, y: 0, duration: 1.4 }, 0.25)
         .to(
-          imageWrapRef.current,
-          { opacity: 1, y: 0, scale: 1, duration: 1.7 },
+          carouselWrapRef.current,
+          { opacity: 1, y: 0, scale: 1, duration: 1.6 },
           0.4,
         )
         .to(taglineRef.current, { opacity: 1, y: 0, duration: 1.0 }, "-=1.0");
@@ -62,10 +100,10 @@ export function Hero() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-[42%] mx-auto h-[60vw] max-h-[700px] w-[70%] -z-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,110,0.07),transparent_65%)]"
+        className="pointer-events-none absolute inset-x-0 top-[35%] z-0 mx-auto h-[60vw] max-h-[700px] w-[70%] bg-[radial-gradient(ellipse_at_center,rgba(200,169,110,0.06),transparent_65%)]"
       />
 
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-[1600px] flex-col justify-between gap-10 px-5 pt-24 pb-12 sm:px-6 md:gap-12 md:px-10 md:pt-32 md:pb-20">
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-12 px-5 pt-28 pb-16 sm:px-6 sm:gap-14 sm:pt-32 md:gap-16 md:px-10 md:pb-20">
         {/* ===== Top: headline + eyebrow / CTA ===== */}
         <div className="grid grid-cols-12 items-start gap-x-6 gap-y-6">
           <h1 className="font-display col-span-12 text-fg lg:col-span-9">
@@ -73,7 +111,7 @@ export function Hero() {
               ref={lineOneRef}
               className="block leading-[0.86]"
               style={{
-                fontSize: "clamp(2.5rem, 9vw, 9.5rem)",
+                fontSize: "clamp(2.75rem, 9.5vw, 9.5rem)",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -83,7 +121,7 @@ export function Hero() {
               ref={lineTwoRef}
               className="block leading-[0.86] italic text-fg-muted"
               style={{
-                fontSize: "clamp(2.5rem, 9vw, 9.5rem)",
+                fontSize: "clamp(2.75rem, 9.5vw, 9.5rem)",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -96,7 +134,7 @@ export function Hero() {
               <p className="font-mono text-[0.72rem] tracking-widest uppercase leading-relaxed text-fg-muted">
                 Estudio · Activo
                 <br />
-                MX · 2025
+                Oaxaca · 2025
               </p>
             </div>
 
@@ -110,46 +148,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ===== Floating house — transparent PNG, Tilt + glare ===== */}
-        <div
-          ref={imageWrapRef}
-          className="relative mx-auto w-full max-w-[1100px] flex-1 flex items-center"
-        >
-          <Tilt
-            tiltEnable={!reduceMotion}
-            tiltMaxAngleX={6}
-            tiltMaxAngleY={6}
-            perspective={1400}
-            transitionSpeed={1800}
-            scale={1.015}
-            gyroscope={!reduceMotion}
-            glareEnable={!reduceMotion}
-            glareMaxOpacity={0.22}
-            glareColor="#f0ede8"
-            glarePosition="all"
-            glareBorderRadius="0px"
-            className="w-full"
-          >
-            <img
-              src={HERO_CASA}
-              alt="Render arquitectónico — proyecto destacado"
-              width={1600}
-              height={1200}
-              fetchPriority="high"
-              decoding="async"
-              className="block h-auto w-full select-none"
-              style={{ filter: "drop-shadow(0 40px 60px rgba(0,0,0,0.55))" }}
-            />
-          </Tilt>
+        {/* ===== Project carousel — autoplay every 5.5s, pauses on hover ===== */}
+        <div ref={carouselWrapRef}>
+          <AnimatedTestimonials slides={HERO_SLIDES} autoplay interval={5500} />
         </div>
 
-        {/* ===== Bottom: tagline + scroll cue ===== */}
-        <div
-          ref={taglineRef}
-          className="grid grid-cols-12 gap-x-6 gap-y-4"
-        >
-          <p className="font-display col-span-12 text-lg leading-tight text-fg sm:text-xl md:col-span-7 md:text-2xl">
-            Estudio de arquitectura contemporánea.
+        {/* ===== Bottom: tagline + portfolio link ===== */}
+        <div ref={taglineRef} className="grid grid-cols-12 gap-x-6 gap-y-4">
+          <p className="font-display col-span-12 text-xl leading-[1.2] text-fg md:col-span-7 md:text-2xl">
+            Estudio de arquitectura contemporánea desde Oaxaca.
             <span className="text-fg-muted"> Un solo estándar — el más alto.</span>
           </p>
 
