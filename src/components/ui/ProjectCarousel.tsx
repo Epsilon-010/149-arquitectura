@@ -209,8 +209,8 @@ export function ProjectCarousel({
         )}
       </div>
 
-      {/* ===== Controls — counter (left) · arrows (center) · dots (right) ===== */}
-      <div className="mt-8 grid grid-cols-3 items-center gap-4 sm:mt-10">
+      {/* ===== Controls — desktop only (mobile uses swipe + auto-play) ===== */}
+      <div className="mt-8 hidden grid-cols-3 items-center gap-4 sm:mt-10 md:grid">
         <span className="font-mono justify-self-start whitespace-nowrap text-[0.7rem] tracking-[0.28em] text-fg-muted">
           {String(active + 1).padStart(2, "0")} ·{" "}
           {String(slides.length).padStart(2, "0")}
@@ -267,26 +267,8 @@ export function ProjectCarousel({
         </ul>
       </div>
 
-      {/* Mobile-only: swipe hint + always-visible info card */}
+      {/* Mobile-only: always-visible info card (no controls — swipe + auto-play) */}
       <div className="mt-6 md:hidden">
-        {/* Swipe affordance — tells touch users they can swipe horizontally */}
-        <div
-          aria-hidden="true"
-          className="mb-5 flex items-center justify-center gap-3 text-fg-muted"
-        >
-          <span
-            className="h-px w-8 opacity-50"
-            style={{ background: "currentColor" }}
-          />
-          <span className="font-mono text-[0.62rem] tracking-[0.32em] uppercase opacity-70">
-            ← Desliza →
-          </span>
-          <span
-            className="h-px w-8 opacity-50"
-            style={{ background: "currentColor" }}
-          />
-        </div>
-
         <AnimatePresence mode="wait">
           <motion.div
             key={`mobile-info-${active}`}
