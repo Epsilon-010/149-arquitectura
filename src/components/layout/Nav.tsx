@@ -27,7 +27,14 @@ export function Nav() {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    // Lock body scroll while the mobile menu is open so the page behind
+    // the overlay doesn't sneak past it on scroll/swipe.
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [open]);
 
   return (
@@ -84,12 +91,20 @@ export function Nav() {
         </button>
       </div>
 
+      {/* Mobile menu overlay — covers the WHOLE viewport (top:0) so even
+          the area behind the translucent header reads as opaque cream,
+          not the page underneath. Header (z-50) still floats above the
+          menu (z-40), but with the menu being a fully opaque bg-ink the
+          translucent header has nothing transparent to show through. */}
       <div
-        className={`fixed inset-0 top-[72px] z-40 bg-ink transition-opacity duration-700 md:hidden ${
+        className={`fixed inset-0 z-40 bg-ink transition-opacity duration-700 md:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
-        <nav className="flex h-full flex-col items-start gap-8 px-8 pt-16" aria-label="Móvil">
+        <nav
+          className="flex h-full flex-col items-start gap-8 px-8 pt-28 pb-12"
+          aria-label="Móvil"
+        >
           {links.map((link) => (
             <a
               key={link.href}
@@ -104,6 +119,7 @@ export function Nav() {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
             className="label-eyebrow mt-8 border-t border-line-subtle pt-8 text-fg-muted"
           >
             Conversación

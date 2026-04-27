@@ -96,7 +96,13 @@ export function RevealText({
                 <span
                   key={i}
                   className="inline-block overflow-hidden align-bottom"
-                  style={{ lineHeight: "inherit" }}
+                  style={{
+                    lineHeight: "inherit",
+                    // Give ascenders/descenders (¿ ? acentos) breathing room
+                    // inside the overflow:hidden mask without affecting layout.
+                    paddingBlock: "0.12em",
+                    marginBlock: "-0.12em",
+                  }}
                 >
                   <span data-word className={cls}>
                     {tok}

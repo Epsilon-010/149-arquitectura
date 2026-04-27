@@ -4,7 +4,6 @@ import { HoverBorderGradient } from "../ui/hover-border-gradient";
 
 const PHONE_TEL = "+5219513505166";
 const PHONE_DISPLAY = "+52 951 350 5166";
-const MAIL = "estudio@149arquitectura.mx";
 const INSTAGRAM_URL =
   "https://instagram.com/149arquitectura?igshid=NTc4MTIwNjQ2YQ==";
 const INSTAGRAM_HANDLE = "@149arquitectura";
@@ -93,26 +92,6 @@ function ClockIcon(props: { className?: string }) {
   );
 }
 
-function MailIcon(props: { className?: string }) {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <rect x="3" y="5" width="18" height="14" />
-      <path d="m3 7 9 7 9-7" />
-    </svg>
-  );
-}
-
 function PhoneIcon(props: { className?: string }) {
   return (
     <svg
@@ -147,7 +126,7 @@ export function Contacto() {
             </Reveal>
             <RevealText
               as="h2"
-              className="font-display mt-6 block text-[clamp(2.5rem,8vw,7.5rem)] leading-[0.95] text-fg sm:mt-8"
+              className="font-display mt-6 block text-[clamp(2.25rem,7.5vw,6.5rem)] leading-[1.05] text-fg sm:mt-8"
               staggerMs={70}
               segments={[
                 { text: "¿Empezamos " },
@@ -238,16 +217,6 @@ export function Contacto() {
                   <PhoneIcon className="shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
                   <span className="link-underline font-mono text-sm text-fg group-hover:text-accent">
                     {PHONE_DISPLAY}
-                  </span>
-                </a>
-                <a
-                  href={`mailto:${MAIL}`}
-                  style={{ touchAction: "manipulation" }}
-                className="group flex items-center gap-4 transition-colors duration-700 hover:text-accent active:text-accent"
-                >
-                  <MailIcon className="shrink-0 text-fg-muted transition-colors duration-700 group-hover:text-accent" />
-                  <span className="link-underline text-fg group-hover:text-accent">
-                    {MAIL}
                   </span>
                 </a>
                 <a

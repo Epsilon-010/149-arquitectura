@@ -1,6 +1,5 @@
 import "./App.css";
 import { Nav } from "./components/layout/Nav";
-import { Footer } from "./components/layout/Footer";
 import { SmoothScroll } from "./components/layout/SmoothScroll";
 import { Hero } from "./components/sections/Hero";
 import { Filosofia } from "./components/sections/Filosofia";
@@ -19,7 +18,6 @@ export default function App() {
         <Servicios />
         <Contacto />
       </main>
-      <Footer />
     </SmoothScroll>
   );
 }

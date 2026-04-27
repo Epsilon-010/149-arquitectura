@@ -108,20 +108,20 @@ export function Hero() {
           <h1 className="font-display col-span-12 text-fg lg:col-span-9">
             <span
               ref={lineOneRef}
-              className="block leading-[0.86]"
+              className="block wrap-break-word leading-[0.88]"
               style={{
-                fontSize: "clamp(2.5rem, 8.5vw, 8.5rem)",
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(1.85rem, 9vw, 8.5rem)",
+                letterSpacing: "-0.025em",
               }}
             >
               ARQUITECTURA
             </span>
             <span
               ref={lineTwoRef}
-              className="block leading-[0.86] italic text-fg-muted"
+              className="block wrap-break-word italic leading-[0.88] text-fg-muted"
               style={{
-                fontSize: "clamp(2.5rem, 8.5vw, 8.5rem)",
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(1.85rem, 9vw, 8.5rem)",
+                letterSpacing: "-0.025em",
               }}
             >
               que permanece
