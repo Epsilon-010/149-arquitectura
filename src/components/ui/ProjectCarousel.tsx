@@ -154,12 +154,14 @@ export function ProjectCarousel({
           }}
         />
 
-        {/* Info card — hover-revealed on desktop */}
+        {/* Info card — hover-revealed on desktop only.
+            Hidden on mobile because the same data is shown below the image
+            (the always-visible mobile block) and would otherwise duplicate. */}
         <div
           className="
-            pointer-events-none absolute inset-x-0 bottom-0 z-10 p-6
-            sm:p-8 md:p-10
-            md:translate-y-2 md:opacity-0 md:transition-all md:duration-1000 md:ease-out
+            pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden p-6
+            sm:p-8 md:block md:translate-y-2 md:p-10 md:opacity-0
+            md:transition-all md:duration-1000 md:ease-out
             md:group-hover/carousel:translate-y-0 md:group-hover/carousel:opacity-100
           "
           style={{ color: "#f0eadb" }}
