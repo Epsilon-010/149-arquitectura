@@ -1,0 +1,142 @@
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { Reveal } from "../ui/Reveal";
+import { RevealText } from "../ui/RevealText";
+import { DirectionAwareHover } from "../ui/direction-aware-hover";
+import { gsap, prefersReducedMotion } from "../../lib/motion";
+import { PROYECTOS, type Proyecto } from "../../data/proyectos";
+
+function ProjectCard({ p, ratio }: { p: Proyecto; ratio: string }) {
+  return (
+    <a
+      href="#"
+      className="group relative block"
+      aria-label={`Proyecto ${p.numero} — ${p.titulo}`}
+    >
+      <div
+        data-parallax
+        className={`relative border border-line-subtle ${ratio}`}
+      >
+        <DirectionAwareHover
+          imageUrl={p.imagen}
+          imageAlt={`${p.titulo}, ${p.ciudad}`}
+        >
+          <div className="font-mono text-[0.72rem] tracking-widest text-accent">
+            {p.numero}
+          </div>
+          <h3 className="font-display mt-2 text-2xl text-fg sm:text-3xl md:text-4xl">
+            {p.titulo}
+          </h3>
+        </DirectionAwareHover>
+      </div>
+
+      <div className="mt-4 flex items-start justify-between gap-4 sm:mt-5 sm:gap-6">
+        <div className="font-mono text-[0.7rem] tracking-widest text-fg-muted">
+          {p.numero}
+        </div>
+        <div className="text-right">
+          <div className="label-eyebrow">{p.categoria}</div>
+          <div className="font-mono mt-2 text-xs text-fg-muted">
+            {p.ano} · {p.ciudad}
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+export function Proyectos() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [a, b, c, d, e, f] = PROYECTOS;
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+      const root = sectionRef.current;
+      if (!root) return;
+
+      // Disable parallax on small screens — it interferes with normal scroll
+      // and adds nothing on a one-column mobile layout.
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      if (!isDesktop) return;
+
+      const cards = gsap.utils.toArray<HTMLElement>(
+        "[data-parallax]",
+        root,
+      );
+      cards.forEach((card, i) => {
+        const range = i % 2 === 0 ? 5 : 10;
+        gsap.fromTo(
+          card,
+          { yPercent: -range },
+          {
+            yPercent: range,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          },
+        );
+      });
+    },
+    { scope: sectionRef },
+  );
+
+  return (
+    <section
+      id="proyectos"
+      ref={sectionRef}
+      className="section-pad relative border-t border-line-subtle bg-ink"
+    >
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Reveal>
+              <span className="label-eyebrow">— 02 / Proyectos</span>
+            </Reveal>
+            <RevealText
+              as="h2"
+              className="font-display mt-6 block text-[clamp(2rem,6vw,5rem)] text-fg"
+              staggerMs={70}
+              text="Trabajo seleccionado"
+            />
+          </div>
+          <Reveal delay={2}>
+            <a
+              href="#"
+              className="link-underline label-eyebrow text-fg-muted hover:text-fg"
+            >
+              Ver portafolio completo
+            </a>
+          </Reveal>
+        </div>
+
+        <div className="grid grid-cols-12 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16">
+          <Reveal className="col-span-12 md:col-span-8">
+            <ProjectCard p={a} ratio="aspect-[16/10]" />
+          </Reveal>
+          <Reveal className="col-span-12 md:col-span-4 md:mt-32" delay={1}>
+            <ProjectCard p={b} ratio="aspect-[3/4]" />
+          </Reveal>
+
+          <Reveal className="col-span-12 md:col-span-5">
+            <ProjectCard p={c} ratio="aspect-[4/5]" />
+          </Reveal>
+          <Reveal className="col-span-12 md:col-span-7 md:mt-24" delay={1}>
+            <ProjectCard p={d} ratio="aspect-[16/10]" />
+          </Reveal>
+
+          <Reveal className="col-span-12 md:col-span-7">
+            <ProjectCard p={e} ratio="aspect-[16/10]" />
+          </Reveal>
+          <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
+            <ProjectCard p={f} ratio="aspect-[4/5]" />
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
