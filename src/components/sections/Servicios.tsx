@@ -1,5 +1,6 @@
 import { Reveal } from "../ui/Reveal";
 import { RevealText } from "../ui/RevealText";
+import { StickyScroll } from "../ui/sticky-scroll-reveal";
 import { SERVICIOS } from "../../data/servicios";
 
 export function Servicios() {
@@ -9,41 +10,27 @@ export function Servicios() {
       className="section-pad relative border-t border-line-subtle bg-surface"
     >
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 md:px-10">
-        <div className="grid grid-cols-12 gap-y-12">
+        {/* Section header — eyebrow + title sit above the sticky-scroll
+            block. The block itself takes over the scroll for 4× viewports
+            on lg+. */}
+        <div className="mb-16 grid grid-cols-12 gap-y-6 md:mb-24">
           <div className="col-span-12 md:col-span-3">
             <Reveal>
               <span className="label-eyebrow">— 03 / Servicios</span>
             </Reveal>
+          </div>
+          <div className="col-span-12 md:col-span-9">
             <RevealText
               as="h2"
-              className="font-display mt-6 block text-[clamp(2.5rem,5vw,4rem)] leading-[0.95] text-fg"
+              className="font-display block text-[clamp(2.5rem,5vw,4rem)] leading-[0.95] text-fg"
               staggerMs={70}
               text="Disciplinas"
               scrub
             />
           </div>
-
-          <ul className="col-span-12 md:col-span-9">
-            {SERVICIOS.map((s, i) => (
-              <Reveal
-                key={s.n}
-                as="li"
-                delay={(i % 4) as 0 | 1 | 2 | 3}
-                className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-3 border-t border-line-subtle py-10 last:border-b sm:gap-x-6 md:py-14"
-              >
-                <span className="font-mono col-span-2 text-[0.72rem] tracking-[0.28em] text-accent md:col-span-1">
-                  {s.n}
-                </span>
-                <h3 className="font-display col-span-10 text-2xl font-light text-fg sm:text-3xl md:col-span-4 md:text-[2.5rem] md:leading-none">
-                  {s.titulo}
-                </h3>
-                <p className="col-span-12 text-sm leading-relaxed text-fg-muted transition-colors duration-1000 ease-out group-hover:text-fg md:col-span-7 md:text-base">
-                  {s.desc}
-                </p>
-              </Reveal>
-            ))}
-          </ul>
         </div>
+
+        <StickyScroll items={SERVICIOS} paneEyebrow="Servicio · 2025" />
       </div>
     </section>
   );

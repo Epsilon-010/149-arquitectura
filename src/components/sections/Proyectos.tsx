@@ -138,7 +138,7 @@ export function Proyectos() {
       ref={sectionRef}
       className="section-pad relative border-t border-line-subtle bg-ink"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 md:px-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
           <div>
             <Reveal>

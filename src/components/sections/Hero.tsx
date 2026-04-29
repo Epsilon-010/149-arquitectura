@@ -163,30 +163,39 @@ export function Hero() {
                   t.src = FALLBACK_IMG;
                 }
               }}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="hero-clip absolute inset-0 h-full w-full object-cover"
               style={{
                 filter: "saturate(0.7) contrast(1.05) brightness(0.96)",
-                clipPath: "url(#hero-bite)",
               }}
             />
           </AnimatePresence>
         </div>
 
-        {/* Sand tonal overlay — same bite, so it doesn't bleed into
-            the paper area. */}
+        {/* Sand tonal overlay — clipped only at md+ so mobile gets
+            full coverage. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 mix-blend-multiply"
+          className="hero-clip pointer-events-none absolute inset-0 mix-blend-multiply"
+          style={{ background: "rgba(190, 170, 142, 0.16)" }}
+        />
+
+        {/* Mobile-only scrim — gives the white headline a clean
+            ground on small screens (no cutout there). Hidden on
+            md+ where the cutout reveals paper bg instead. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] md:hidden"
           style={{
-            background: "rgba(190, 170, 142, 0.16)",
-            clipPath: "url(#hero-bite)",
+            background:
+              "linear-gradient(to top, rgba(28,22,16,0.62) 0%, rgba(28,22,16,0.22) 38%, transparent 100%)",
           }}
         />
 
-        {/* ===== Top-right: studio meta ===== */}
+        {/* ===== Top-right: studio meta — hidden on mobile to avoid
+            colliding with the navbar logo on narrow viewports. ===== */}
         <div
           ref={metaRef}
-          className="absolute right-5 top-6 z-10 sm:right-6 md:right-10 md:top-10"
+          className="absolute right-5 top-6 z-10 hidden sm:right-6 md:right-10 md:top-10 md:block"
           style={{ color: "#F8F7F2" }}
         >
           <p className="font-mono text-right text-[0.7rem] uppercase tracking-[0.28em] opacity-85">
@@ -212,9 +221,10 @@ export function Hero() {
         </div>
 
         {/* ===== Headline — bottom-left, on the paper bite area, dark
-            type. The headline IS what the bite was carved for. ===== */}
+            type on md+. On mobile (no cutout) it lays over the image
+            in light paper-colour with the scrim above for legibility. */}
         <h1
-          className="absolute bottom-12 left-5 right-5 z-10 text-fg sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto"
+          className="absolute bottom-12 left-5 right-5 z-10 text-ink sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto md:text-fg"
         >
           <span
             ref={lineOneRef}

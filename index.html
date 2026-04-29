@@ -2,11 +2,42 @@
 <html lang="es-MX">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080809" />
-    <meta name="description" content="149 Arquitectura — Estudio de arquitectura contemporánea. Proyectos residenciales, corporativos e interiorismo de alto nivel." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://149arquitectura.mx/" />
 
+    <!-- Theme + SEO basics -->
+    <meta name="theme-color" content="#F8F7F2" />
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content="149 Arquitectura" />
+    <meta
+      name="description"
+      content="149 Arquitectura — estudio de arquitectura contemporánea en Oaxaca. Diseño arquitectónico, remodelación, mobiliario y supervisión de obra para proyectos residenciales, corporativos e interiorismo."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="149 Arquitectura" />
+    <meta property="og:url" content="https://149arquitectura.mx/" />
+    <meta property="og:title" content="149 Arquitectura — Estudio en Oaxaca" />
+    <meta
+      property="og:description"
+      content="Estudio de arquitectura contemporánea en Oaxaca. Cada proyecto comienza con la pregunta de cómo debe sentirse el lugar."
+    />
+    <meta property="og:image" content="https://149arquitectura.mx/imgs/hero.webp" />
+    <meta property="og:image:alt" content="Casa contemporánea diseñada por 149 Arquitectura" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="149 Arquitectura" />
+    <meta
+      name="twitter:description"
+      content="Estudio de arquitectura contemporánea en Oaxaca."
+    />
+    <meta name="twitter:image" content="https://149arquitectura.mx/imgs/hero.webp" />
+
+    <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" />
@@ -28,7 +59,61 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
-    <title>149 Arquitectura — Estudio de Arquitectura Contemporánea</title>
+    <!-- Preload the hero image so LCP fires on the first paint -->
+    <link rel="preload" as="image" href="/imgs/hero.webp" fetchpriority="high" />
+
+    <title>149 Arquitectura — Estudio de Arquitectura Contemporánea en Oaxaca</title>
+
+    <!-- Schema.org structured data — LocalBusiness for rich results
+         (Google Business, Maps, Knowledge panel). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "149 Arquitectura",
+        "description": "Estudio de arquitectura contemporánea en Oaxaca de Juárez",
+        "url": "https://149arquitectura.mx/",
+        "image": "https://149arquitectura.mx/imgs/hero.webp",
+        "telephone": "+5219513505166",
+        "priceRange": "$$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Niños Héroes 635-B, Ex-Marquezado",
+          "addressLocality": "Oaxaca de Juárez",
+          "addressRegion": "Oaxaca",
+          "postalCode": "68034",
+          "addressCountry": "MX"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 17.0732,
+          "longitude": -96.7266
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "10:00",
+            "closes": "17:00"
+          }
+        ],
+        "sameAs": [
+          "https://instagram.com/149arquitectura"
+        ],
+        "areaServed": {
+          "@type": "Place",
+          "name": "México"
+        },
+        "knowsAbout": [
+          "Arquitectura contemporánea",
+          "Diseño arquitectónico",
+          "Interiorismo",
+          "Remodelación",
+          "Diseño de mobiliario",
+          "Supervisión de obra"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

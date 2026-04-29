@@ -61,7 +61,7 @@ export function Nav() {
               alt="149 Arquitectura"
               loading="eager"
               decoding="async"
-              className="h-16 w-auto md:h-20"
+              className="h-12 w-auto sm:h-16 md:h-20"
               // mix-blend-multiply makes the JPEG/WebP white padding
               // blend into the paper page background, so the logo
               // reads as if it had a transparent background.
