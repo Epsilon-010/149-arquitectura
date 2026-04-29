@@ -253,11 +253,16 @@ export function Hero() {
             </div>
           </div>
           <h1 className="text-fg">
+            {/* Font size split per breakpoint:
+                · < md: clamp(1.75rem, 6.5vw, 7rem) — smaller so
+                  ARQUITECTURA + the longest verb fit comfortably
+                  inside the 65%-wide mobile cutout.
+                · md+: clamp(2rem, 8vw, 8rem) — original desktop
+                  scale, untouched. */}
             <span
               ref={lineOneRef}
-              className="font-display block leading-[0.88]"
+              className="font-display block leading-[0.88] text-[clamp(1.75rem,6.5vw,7rem)] md:text-[clamp(2rem,8vw,8rem)]"
               style={{
-                fontSize: "clamp(2rem, 8vw, 8rem)",
                 letterSpacing: "-0.025em",
               }}
             >
@@ -265,9 +270,8 @@ export function Hero() {
             </span>
             <span
               ref={lineTwoRef}
-              className="font-display block italic leading-[0.88]"
+              className="font-display block italic leading-[0.88] text-[clamp(1.75rem,6.5vw,7rem)] md:text-[clamp(2rem,8vw,8rem)]"
               style={{
-                fontSize: "clamp(2rem, 8vw, 8rem)",
                 letterSpacing: "-0.025em",
                 opacity: 0.72,
               }}
@@ -278,23 +282,15 @@ export function Hero() {
           </h1>
         </div>
 
-        {/* ===== Description card — frosted floating panel.
-            Two positions across breakpoints:
-              · < lg: top-right, below the navbar — sits on the
-                image area at the top of the hero, doesn't fight
-                the headline at the bottom (different vertical
-                zones). Extra top offset per breakpoint so it
-                always clears the responsive nav height.
-              · lg+: bottom-right, the original architectural
-                pairing with the headline at bottom-left.
-            backdrop-blur stays in both positions because the
-            card always sits over image, never over paper. ===== */}
+        {/* ===== Description card — bottom-right, frosted. Only
+            visible on lg+ — on phones/tablets the hero stays
+            uncluttered with just headline + cycle marker. ===== */}
         <div
           ref={cardRef}
-          className="absolute right-5 top-28 z-10 max-w-[85%] sm:right-6 sm:top-32 sm:max-w-sm md:top-40 lg:bottom-10 lg:right-10 lg:top-auto"
+          className="absolute bottom-6 right-5 z-10 hidden max-w-sm sm:right-6 md:bottom-10 md:right-10 lg:block"
         >
           <div
-            className="border p-5 backdrop-blur-md sm:p-7 md:p-8"
+            className="border p-7 backdrop-blur-md md:p-8"
             style={{
               borderColor: "rgba(248, 247, 242, 0.45)",
               background: "rgba(248, 247, 242, 0.85)",
