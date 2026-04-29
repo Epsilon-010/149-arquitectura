@@ -6,26 +6,48 @@ import { DirectionAwareHover } from "../ui/direction-aware-hover";
 import { gsap, prefersReducedMotion } from "../../lib/motion";
 import { PROYECTOS, type Proyecto } from "../../data/proyectos";
 
-function ProjectCard({ p, ratio }: { p: Proyecto; ratio: string }) {
+function ProjectCard({
+  p,
+  ratio,
+  biteId,
+}: {
+  p: Proyecto;
+  ratio: string;
+  /** id of the SVG <clipPath> in ClipDefs that shapes this card.
+      Each card gets a different bite so the grid never repeats. */
+  biteId: string;
+}) {
   return (
     <a
       href="#"
       className="group relative block"
       aria-label={`Proyecto ${p.numero} — ${p.titulo}`}
     >
-      <div
-        data-parallax
-        data-image-reveal
-        className={`relative border border-line-subtle ${ratio}`}
-      >
-        <DirectionAwareHover
-          imageUrl={p.imagen}
-          imageAlt={`${p.titulo}, ${p.ciudad}`}
-        />
+      {/* Image stage — three nested layers because we have three
+          distinct clip operations to compose:
+            1. Outer: aspect ratio + scroll parallax target.
+            2. Middle (data-image-reveal): the GSAP cortina reveal
+               that animates clip-path: inset(...) on scroll-in.
+            3. Inner: the SVG bite shape (clip-path: url(#bite-N))
+               carving an organic concave silhouette unique to this
+               card. Each clip-path lives on its own element so they
+               don't fight for the same property. */}
+      <div data-parallax className={`relative ${ratio}`}>
+        <div data-image-reveal className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{ clipPath: `url(#${biteId})` }}
+          >
+            <DirectionAwareHover
+              imageUrl={p.imagen}
+              imageAlt={`${p.titulo}, ${p.ciudad}`}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Always-visible project metadata — clean editorial layout below the image */}
-      <div className="mt-6 grid grid-cols-12 items-start gap-x-4 gap-y-3 sm:mt-7">
+      <div className="mt-6 grid grid-cols-12 items-start gap-x-4 gap-y-3 px-2 sm:mt-7 sm:px-3">
         <div className="font-mono col-span-12 text-[0.7rem] tracking-[0.28em] text-accent">
           {p.numero}
         </div>
@@ -140,26 +162,26 @@ export function Proyectos() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-12 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16">
+        <div className="grid grid-cols-12 gap-x-5 gap-y-16 sm:gap-x-8 sm:gap-y-20 md:gap-x-10 md:gap-y-24">
           <Reveal className="col-span-12 md:col-span-8">
-            <ProjectCard p={a} ratio="aspect-[16/10]" />
+            <ProjectCard p={a} ratio="aspect-[16/10]" biteId="bite-1" />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-4 md:mt-32" delay={1}>
-            <ProjectCard p={b} ratio="aspect-[3/4]" />
+            <ProjectCard p={b} ratio="aspect-[3/4]" biteId="bite-2" />
           </Reveal>
 
           <Reveal className="col-span-12 md:col-span-5">
-            <ProjectCard p={c} ratio="aspect-[4/5]" />
+            <ProjectCard p={c} ratio="aspect-[4/5]" biteId="bite-3" />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-7 md:mt-24" delay={1}>
-            <ProjectCard p={d} ratio="aspect-[16/10]" />
+            <ProjectCard p={d} ratio="aspect-[16/10]" biteId="bite-4" />
           </Reveal>
 
           <Reveal className="col-span-12 md:col-span-7">
-            <ProjectCard p={e} ratio="aspect-[16/10]" />
+            <ProjectCard p={e} ratio="aspect-[16/10]" biteId="bite-5" />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
-            <ProjectCard p={f} ratio="aspect-[4/5]" />
+            <ProjectCard p={f} ratio="aspect-[4/5]" biteId="bite-6" />
           </Reveal>
         </div>
       </div>

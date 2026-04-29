@@ -62,9 +62,9 @@ export function Nav() {
               loading="eager"
               decoding="async"
               className="h-16 w-auto md:h-20"
-              // mix-blend-mode: multiply makes the JPEG's white padding
-              // blend into the cream page background, so the logo reads
-              // as if it had a transparent background — no PNG/SVG needed.
+              // mix-blend-multiply makes the JPEG/WebP white padding
+              // blend into the paper page background, so the logo
+              // reads as if it had a transparent background.
               style={{ mixBlendMode: "multiply" }}
             />
           </a>
@@ -74,7 +74,10 @@ export function Nav() {
               <a
                 key={link.href}
                 href={link.href}
-                className="link-underline label-eyebrow text-fg-muted transition-colors duration-500 hover:text-fg"
+                // Bumped contrast (text-fg!), medium weight (font-mono
+                // 500), and a hair more tracking + size than .label-eyebrow.
+                // Reads as proper navigation rather than incidental copy.
+                className="link-underline font-mono text-[0.78rem] font-medium uppercase tracking-[0.26em] text-fg transition-colors duration-500 hover:text-accent"
               >
                 {link.label}
               </a>
@@ -86,7 +89,7 @@ export function Nav() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline label-eyebrow text-fg transition-colors duration-500 hover:text-accent"
+              className="link-underline font-mono text-[0.78rem] font-medium uppercase tracking-[0.26em] text-fg transition-colors duration-500 hover:text-accent"
             >
               Conversación
             </a>

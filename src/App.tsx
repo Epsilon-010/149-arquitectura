@@ -8,6 +8,7 @@ import { Servicios } from "./components/sections/Servicios";
 import { Contacto } from "./components/sections/Contacto";
 import { Grain } from "./components/ui/Grain";
 import { Cursor } from "./components/ui/Cursor";
+import { ClipDefs } from "./components/ui/ClipDefs";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
       </main>
       <Grain />
       <Cursor />
+      <ClipDefs />
     </SmoothScroll>
   );
 }

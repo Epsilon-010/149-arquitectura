@@ -84,13 +84,13 @@ export function Cursor() {
       <div
         ref={ringRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[200] hidden border border-fg opacity-90 transition-[width,height,border-color] duration-300 ease-out md:block"
+        className="pointer-events-none fixed left-0 top-0 z-200 hidden border border-fg opacity-90 transition-[width,height,border-color] duration-300 ease-out md:block"
         style={{ width: 32, height: 32, willChange: "transform" }}
       />
       <div
         ref={dotRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[200] hidden h-1.5 w-1.5 bg-fg opacity-0 transition-opacity duration-200 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-200 hidden h-1.5 w-1.5 bg-fg opacity-0 transition-opacity duration-200 md:block"
         style={{ willChange: "transform, opacity" }}
       />
     </>

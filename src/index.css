@@ -47,31 +47,34 @@
      --shadow-X           → shadow-X (n/a here)
    ========================================================= */
 @theme {
-  /* Backgrounds — bone / warm cream (no pure white) */
-  --color-ink: #f0eadb;             /* Cream cálido — fondo base */
-  --color-surface: #e7decb;         /* Superficie elevada */
-  --color-elevated: #dad1b8;        /* Cards, paneles */
-  --color-overlay: rgba(240, 234, 219, 0.88); /* Nav, modales */
+  /* Propuesta 2 — palette: paper + sand + taupe.
+     Three warm earth tones, no gold, no near-black accent. The page
+     lives entirely in this family — soft, low-contrast luxury (Aman /
+     architectural monograph feel). A derived warm dark `--color-fg`
+     gives body copy the legibility the three soft tones can't. */
+  --color-ink: #F8F7F2;             /* Paper — fondo base */
+  --color-surface: #E5DDC9;         /* Warm stone — alternating sections */
+  --color-elevated: #d4cab1;        /* Deeper bone — cards, paneles */
+  --color-overlay: rgba(248, 247, 242, 0.85);
 
-  /* Acento (oro envejecido — más oscuro para contrastar sobre cream) */
-  --color-accent: #8e6a36;          /* Aged gold — AA contrast on cream */
-  --color-accent-soft: #b08e54;     /* Hover, lighter */
-  --color-accent-dim: rgba(142, 106, 54, 0.10); /* Tinte para fondos */
+  /* Acento — sand */
+  --color-accent: #BEAA8E;          /* Warm tan */
+  --color-accent-soft: #d4c2a3;     /* Hover, lighter */
+  --color-accent-dim: rgba(190, 170, 142, 0.15);
 
-  /* Foreground — warm near-black (no negro 100%) */
-  --color-fg: #1c1813;              /* Charcoal cálido — texto principal */
-  --color-fg-muted: #6e6757;        /* Gris cálido — subtítulos */
-  --color-fg-faint: #a8a294;        /* Decorativo, copyright */
+  /* Foreground — warm dark for legibility */
+  --color-fg: #2a241c;              /* Warm near-black */
+  --color-fg-muted: #A3968D;        /* Taupe */
+  --color-fg-faint: #c9bfb1;
 
   /* Líneas */
-  --color-line: rgba(142, 106, 54, 0.22);  /* Borde dorado tenue */
-  --color-line-subtle: rgba(28, 24, 19, 0.10); /* Borde oscuro tenue */
+  --color-line: rgba(42, 36, 28, 0.18);
+  --color-line-subtle: rgba(42, 36, 28, 0.08);
 
-  /* Scrim — overlay oscuro semitranslúcido para texto sobre imagen */
-  --color-scrim: rgba(28, 24, 19, 0.55);
+  /* Scrim */
+  --color-scrim: rgba(42, 36, 28, 0.55);
 
-  /* Tipografía — monotipográfica con Caviar Dreams (geométrica, hace
-     eco del logo). JetBrains Mono se queda para números/datos. */
+  /* Tipografía (sin cambios) */
   --font-display: "Caviar Dreams", "Cormorant Garamond", Georgia, serif;
   --font-sans: "Caviar Dreams", "DM Sans", "Helvetica Neue", Helvetica, sans-serif;
   --font-mono: "JetBrains Mono", "Courier New", monospace;
@@ -101,10 +104,10 @@ body {
   overflow-x: hidden;
 }
 
-/* CLAUDE.md §11 rule 1: no border-radius anywhere, ever. */
-* {
-  border-radius: 0 !important;
-}
+/* CLAUDE.md §11 #1 used to ban border-radius globally. Propuesta-2
+   relaxes the rule for the rounded project cards. Tailwind v4 has no
+   default radius, so the rest of the site stays sharp unless an
+   explicit `rounded-*` is used. */
 
 ::selection {
   background: var(--color-accent);
