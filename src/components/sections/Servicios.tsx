@@ -19,6 +19,7 @@ export function Servicios() {
               className="font-display mt-6 block text-[clamp(2.5rem,5vw,4rem)] leading-[0.95] text-fg"
               staggerMs={70}
               text="Disciplinas"
+              scrub
             />
           </div>
 

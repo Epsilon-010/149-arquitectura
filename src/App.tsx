@@ -6,6 +6,8 @@ import { Filosofia } from "./components/sections/Filosofia";
 import { Proyectos } from "./components/sections/Proyectos";
 import { Servicios } from "./components/sections/Servicios";
 import { Contacto } from "./components/sections/Contacto";
+import { Grain } from "./components/ui/Grain";
+import { Cursor } from "./components/ui/Cursor";
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Servicios />
         <Contacto />
       </main>
+      <Grain />
+      <Cursor />
     </SmoothScroll>
   );
 }

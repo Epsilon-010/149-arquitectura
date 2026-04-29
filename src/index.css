@@ -1,6 +1,43 @@
 @import "tailwindcss";
 
 /* =========================================================
+   Local fonts — Caviar Dreams (display + body)
+   Geometric thin sans-serif. Mirrors the wordmark in the
+   149 Arquitectura logo, so the whole page reads as an
+   extension of the brand mark. Only Regular (400) and Bold
+   (700) ship — there's no Light, so anywhere we used
+   `font-weight: 300` for Cormorant we now use 400.
+   ========================================================= */
+@font-face {
+  font-family: "Caviar Dreams";
+  src: url("/fonts/CaviarDreams.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Caviar Dreams";
+  src: url("/fonts/CaviarDreams_Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Caviar Dreams";
+  src: url("/fonts/CaviarDreams_Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Caviar Dreams";
+  src: url("/fonts/CaviarDreams_BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* =========================================================
    149 Arquitectura — Tailwind v4 design tokens
    These map 1:1 to CLAUDE.md §2.
    Tailwind v4 auto-generates utilities for every token here:
@@ -33,9 +70,10 @@
   /* Scrim — overlay oscuro semitranslúcido para texto sobre imagen */
   --color-scrim: rgba(28, 24, 19, 0.55);
 
-  /* Tipografía */
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "DM Sans", "Neue Haas Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+  /* Tipografía — monotipográfica con Caviar Dreams (geométrica, hace
+     eco del logo). JetBrains Mono se queda para números/datos. */
+  --font-display: "Caviar Dreams", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Caviar Dreams", "DM Sans", "Helvetica Neue", Helvetica, sans-serif;
   --font-mono: "JetBrains Mono", "Courier New", monospace;
 
   /* Easing */
@@ -56,7 +94,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   background: var(--color-ink);
   color: var(--color-fg);
@@ -73,13 +111,27 @@ body {
   color: var(--color-ink);
 }
 
+/* Headlines: prevent orphaned single words on the last line and let
+   the browser balance the lines for an optically pleasing wrap.
+   Falls back gracefully where unsupported. */
+h1, h2, h3, .font-display {
+  text-wrap: balance;
+}
+
+/* Branded focus ring — keyboard users get a clear, on-brand outline
+   while mouse/touch users see no extra chrome. */
+:focus-visible {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
 /* =========================================================
    Typography helpers
    ========================================================= */
 .font-display {
   font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 0.95;
 }
 

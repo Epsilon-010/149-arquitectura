@@ -15,6 +15,7 @@ function ProjectCard({ p, ratio }: { p: Proyecto; ratio: string }) {
     >
       <div
         data-parallax
+        data-image-reveal
         className={`relative border border-line-subtle ${ratio}`}
       >
         <DirectionAwareHover
@@ -53,11 +54,37 @@ export function Proyectos() {
       const root = sectionRef.current;
       if (!root) return;
 
-      // Disable parallax on small screens — it interferes with normal scroll
-      // and adds nothing on a one-column mobile layout.
       const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-      if (!isDesktop) return;
 
+      // Vertical-curtain reveal — fires once when each project image
+      // crosses into the viewport. The image starts fully clipped from
+      // the bottom (invisible) and "uncovers" downward like a render
+      // being unsheathed. Runs on every breakpoint; replaces the
+      // generic Reveal fade-in for project images.
+      const reveals = gsap.utils.toArray<HTMLElement>(
+        "[data-image-reveal]",
+        root,
+      );
+      reveals.forEach((wrap) => {
+        gsap.fromTo(
+          wrap,
+          { clipPath: "inset(0% 0% 100% 0%)" },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1.6,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: wrap,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      // Desktop-only scroll parallax stays. Skipped on mobile — feels
+      // janky on a one-column layout and fights with normal scroll.
+      if (!isDesktop) return;
       const cards = gsap.utils.toArray<HTMLElement>(
         "[data-parallax]",
         root,
@@ -100,6 +127,7 @@ export function Proyectos() {
               className="font-display mt-6 block text-[clamp(2rem,6vw,5rem)] text-fg"
               staggerMs={70}
               text="Trabajo seleccionado"
+              scrub
             />
           </div>
           <Reveal delay={2}>

@@ -11,14 +11,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" />
 
+    <!-- Caviar Dreams (display + body) — local. Preload only the two
+         variants that show above the fold (Regular + Italic) to keep
+         the LCP fast; Bold + BoldItalic load on demand via @font-face. -->
+    <link rel="preload" href="/fonts/CaviarDreams.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/CaviarDreams_Italic.ttf" as="font" type="font/ttf" crossorigin />
+
+    <!-- JetBrains Mono — only used for project numbers and tabular data -->
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
     <title>149 Arquitectura — Estudio de Arquitectura Contemporánea</title>

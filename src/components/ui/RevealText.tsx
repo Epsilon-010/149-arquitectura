@@ -14,6 +14,11 @@ type Props = {
   staggerMs?: number;
   /** When the trigger top crosses this viewport %, the reveal fires. */
   start?: string;
+  /** Tie the reveal to scroll position instead of firing once. Words rise
+      into frame as the user scrolls, mapped between `start` and `end`. */
+  scrub?: boolean;
+  /** End trigger when `scrub` is on. Default "top 30%". */
+  end?: string;
   as?: "h1" | "h2" | "h3" | "p" | "span";
   children?: ReactNode;
 };
@@ -28,6 +33,8 @@ export function RevealText({
   className = "",
   staggerMs = 50,
   start = "top 88%",
+  scrub = false,
+  end = "top 30%",
   as: Tag = "span",
   children,
 }: Props) {
@@ -52,18 +59,23 @@ export function RevealText({
         {
           yPercent: 0,
           opacity: 1,
-          duration: 1.2,
+          duration: scrub ? undefined : 1.2,
           stagger: staggerMs / 1000,
-          ease: "expo.out",
+          ease: scrub ? "none" : "expo.out",
           scrollTrigger: {
             trigger: node,
-            start,
-            toggleActions: "play none none none",
+            start: scrub ? "top 90%" : start,
+            end: scrub ? end : undefined,
+            scrub: scrub ? 0.6 : false,
+            toggleActions: scrub ? undefined : "play none none none",
           },
         },
       );
     },
-    { scope: containerRef, dependencies: [text, segments, staggerMs, start] },
+    {
+      scope: containerRef,
+      dependencies: [text, segments, staggerMs, start, scrub, end],
+    },
   );
 
   // Build the segments. If `text` is given, treat it as one plain segment.

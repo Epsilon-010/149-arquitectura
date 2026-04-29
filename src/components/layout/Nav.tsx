@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Magnetic } from "../ui/Magnetic";
 
 const WHATSAPP_URL =
   "https://wa.me/5219513505166?text=Hola%2C%20me%20gustar%C3%ADa%20una%20consulta%20con%20149%20Arquitectura.";
@@ -52,10 +53,20 @@ export function Nav() {
           <a
             href="#top"
             onClick={() => setOpen(false)}
-            className="font-display text-2xl leading-none text-fg sm:text-3xl md:text-4xl"
+            className="block leading-none"
             aria-label="149 Arquitectura — inicio"
           >
-            149
+            <img
+              src="/logo/149-arquitectura logo.webp"
+              alt="149 Arquitectura"
+              loading="eager"
+              decoding="async"
+              className="h-16 w-auto md:h-20"
+              // mix-blend-mode: multiply makes the JPEG's white padding
+              // blend into the cream page background, so the logo reads
+              // as if it had a transparent background — no PNG/SVG needed.
+              style={{ mixBlendMode: "multiply" }}
+            />
           </a>
 
           <nav className="hidden items-center gap-10 md:flex" aria-label="Principal">
@@ -70,14 +81,16 @@ export function Nav() {
             ))}
           </nav>
 
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-underline label-eyebrow hidden text-fg transition-colors duration-500 hover:text-accent md:inline-block"
-          >
-            Conversación
-          </a>
+          <Magnetic className="hidden md:inline-block" strength={0.3}>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline label-eyebrow text-fg transition-colors duration-500 hover:text-accent"
+            >
+              Conversación
+            </a>
+          </Magnetic>
 
           <button
             type="button"

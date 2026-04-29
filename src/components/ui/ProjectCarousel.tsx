@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 
 export type CarouselSlide = {
   numero: string;
@@ -19,6 +19,36 @@ type Props = {
 
 const SWIPE_THRESHOLD = 60;
 const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
+// If a remote image (Unsplash, etc.) fails to load — bad network, blocked
+// host, dead photo ID — drop in this local image so the slide is never
+// blank. The fallback lives in /public/proyectos/.
+const FALLBACK_IMG = "/proyectos/casa-Photoroom.webp";
+
+// Directional wipe transition. A vertical line travels across the image
+// in the navigation direction, revealing the new slide and covering the
+// outgoing one. Going forward (→), the line moves left-to-right; going
+// back (←), right-to-left. Felt heavily editorial — closer to a luxury
+// magazine page-turn than a video crossfade.
+const slideVariants: Variants = {
+  initial: (direction: 1 | -1) => ({
+    clipPath:
+      direction === 1
+        ? "inset(0% 100% 0% 0%)" // hidden from the right (will reveal left → right)
+        : "inset(0% 0% 0% 100%)", // hidden from the left (will reveal right → left)
+    scale: 1.06,
+  }),
+  center: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    scale: 1,
+  },
+  exit: (direction: 1 | -1) => ({
+    clipPath:
+      direction === 1
+        ? "inset(0% 0% 0% 100%)" // wipe out from left → right
+        : "inset(0% 100% 0% 0%)", // wipe out from right → left
+    scale: 1.02,
+  }),
+};
 
 // 149's hero carousel.
 //
@@ -117,7 +147,18 @@ export function ProjectCarousel({
       onTouchEnd={onTouchEnd}
     >
       {/* ===== Image stage ===== */}
-      <div className="relative aspect-3/2 w-full overflow-hidden border border-line-subtle bg-surface md:aspect-video">
+      <div className="relative aspect-3/2 w-full border border-line-subtle bg-surface md:aspect-video">
+        {/* Crop marks — small L-shaped ticks at each corner of the
+            image stage. Architectural drafting reference (the marks a
+            printer leaves so the page knows where to be cut). Sits
+            outside the image but inside the carousel root, so they
+            stay rock-still while the slides wipe behind. */}
+        <CropMark className="absolute -top-2 -left-2" rotate={0} />
+        <CropMark className="absolute -top-2 -right-2" rotate={90} />
+        <CropMark className="absolute -bottom-2 -right-2" rotate={180} />
+        <CropMark className="absolute -bottom-2 -left-2" rotate={270} />
+
+        <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.img
             key={slide.src}
@@ -129,13 +170,20 @@ export function ProjectCarousel({
             loading={active === 0 ? "eager" : "lazy"}
             draggable={false}
             custom={direction}
-            initial={{ opacity: 0, scale: 1.06 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
+            variants={slideVariants}
+            initial="initial"
+            animate="center"
+            exit="exit"
             transition={{
-              duration: reduceMotion ? 0 : 1.4,
+              duration: reduceMotion ? 0 : 1.3,
               ease: EASE_LUXURY,
-              opacity: { duration: reduceMotion ? 0 : 1.0 },
+            }}
+            onError={(e) => {
+              const t = e.currentTarget;
+              if (!t.dataset.fellback) {
+                t.dataset.fellback = "1";
+                t.src = FALLBACK_IMG;
+              }
             }}
             className="absolute inset-0 h-full w-full object-cover"
             style={{
@@ -207,6 +255,7 @@ export function ProjectCarousel({
             />
           </div>
         )}
+        </div>
       </div>
 
       {/* ===== Controls — desktop only (mobile uses swipe + auto-play) ===== */}
@@ -291,6 +340,45 @@ export function ProjectCarousel({
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+// 8px L-shaped corner mark — drafting reference. Drawn as two 1px
+// strokes meeting at a corner, rotated to fit each of the four
+// corners. Pure decoration; pointer-events stay through.
+function CropMark({
+  className = "",
+  rotate = 0,
+}: {
+  className?: string;
+  rotate?: 0 | 90 | 180 | 270;
+}) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      aria-hidden="true"
+      className={`pointer-events-none ${className}`}
+      style={{ transform: `rotate(${rotate}deg)` }}
+    >
+      <line
+        x1="0"
+        y1="0.5"
+        x2="14"
+        y2="0.5"
+        stroke="var(--color-accent)"
+        strokeWidth="1"
+      />
+      <line
+        x1="0.5"
+        y1="0"
+        x2="0.5"
+        y2="14"
+        stroke="var(--color-accent)"
+        strokeWidth="1"
+      />
+    </svg>
   );
 }
 

@@ -1,6 +1,7 @@
 import { Reveal } from "../ui/Reveal";
 import { RevealText } from "../ui/RevealText";
 import { HoverBorderGradient } from "../ui/hover-border-gradient";
+import { Magnetic } from "../ui/Magnetic";
 
 const PHONE_TEL = "+5219513505166";
 const PHONE_DISPLAY = "+52 951 350 5166";
@@ -132,6 +133,7 @@ export function Contacto() {
                 { text: "¿Empezamos " },
                 { text: "tu proyecto?", italic: true },
               ]}
+              scrub
             />
             <Reveal delay={2}>
               <p className="mt-8 max-w-md text-base leading-relaxed text-fg-muted">
@@ -141,22 +143,24 @@ export function Contacto() {
             </Reveal>
 
             <Reveal delay={3}>
-              <HoverBorderGradient
-                as="a"
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                duration={1.6}
-                containerClassName="mt-10 sm:mt-12 max-w-full"
-                className="px-5 py-4 sm:px-8 sm:py-5"
-              >
-                <span className="flex items-center gap-3 sm:gap-5">
-                  <WhatsAppIcon className="shrink-0 text-accent" />
-                  <span className="font-display text-xl normal-case tracking-normal text-fg sm:text-2xl md:text-3xl">
-                    Escribir por WhatsApp
+              <Magnetic strength={0.18} className="block">
+                <HoverBorderGradient
+                  as="a"
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  duration={1.6}
+                  containerClassName="mt-10 sm:mt-12 max-w-full"
+                  className="px-5 py-4 sm:px-8 sm:py-5"
+                >
+                  <span className="flex items-center gap-3 sm:gap-5">
+                    <WhatsAppIcon className="shrink-0 text-accent" />
+                    <span className="font-display text-xl normal-case tracking-normal text-fg sm:text-2xl md:text-3xl">
+                      Escribir por WhatsApp
+                    </span>
                   </span>
-                </span>
-              </HoverBorderGradient>
+                </HoverBorderGradient>
+              </Magnetic>
             </Reveal>
           </div>
 

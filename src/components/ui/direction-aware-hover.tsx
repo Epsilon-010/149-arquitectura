@@ -15,6 +15,11 @@ type Props = {
   className?: string;
 };
 
+// Local image used when a remote source fails to load. Same fallback
+// strategy as the hero carousel — keeps the project grid intact even
+// when network / Unsplash misbehaves.
+const FALLBACK_IMG = "/proyectos/casa-Photoroom.webp";
+
 // Aceternity's "direction-aware hover" adapted to the 149 system:
 // - no border-radius
 // - tokens (bg-surface, bg-ink, text-fg) instead of gray/black
@@ -77,6 +82,13 @@ export function DirectionAwareHover({
               height={imageHeight}
               loading="lazy"
               decoding="async"
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (!t.dataset.fellback) {
+                  t.dataset.fellback = "1";
+                  t.src = FALLBACK_IMG;
+                }
+              }}
               className={cn(
                 "h-full w-full scale-[1.08] object-cover transition-[filter] duration-700",
                 "filter-[grayscale(100%)_contrast(1.05)_brightness(0.9)]",
