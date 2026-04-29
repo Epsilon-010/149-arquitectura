@@ -25,19 +25,19 @@ export function ClipDefs() {
       }}
     >
       <defs>
-        {/* Hero — DESKTOP. Rectangular cutout, bottom-left, generous
-            rounded inner corner. Occupies left 55% × bottom 38% of
-            the viewport. Tuned for landscape (wider than tall). */}
+        {/* Hero — DESKTOP. Rectangular cutout, bottom-left, with a
+            true elliptical arc at the inner corner (A command). 55%
+            wide × 38% tall, radius bumped to 0.14 for a softer,
+            more visibly rounded transition. */}
         <clipPath id="hero-bite" clipPathUnits="objectBoundingBox">
-          <path d="M 0,0 L 1,0 L 1,1 L 0.55,1 L 0.55,0.70 Q 0.55,0.62 0.47,0.62 L 0,0.62 L 0,0 Z" />
+          <path d="M 0,0 L 1,0 L 1,1 L 0.53,1 L 0.53,0.76 A 0.14 0.14 0 0 0 0.39 0.62 L 0,0.62 L 0,0 Z" />
         </clipPath>
 
-        {/* Hero — MOBILE. Same shape language but tuned for portrait
-            viewports: WIDER on x (so the headline fits) and SHORTER
-            on y (so the photograph keeps presence above). Cutout
-            occupies left 75% × bottom 25%. */}
+        {/* Hero — MOBILE. Tuned for portrait viewports — 62% × 21%,
+            radius 0.08 (proportionally softer to match the desktop
+            change without overpowering the smaller cutout). */}
         <clipPath id="hero-bite-mobile" clipPathUnits="objectBoundingBox">
-          <path d="M 0,0 L 1,0 L 1,1 L 0.78,1 L 0.78,0.79 Q 0.78,0.74 0.73,0.74 L 0,0.74 L 0,0 Z" />
+          <path d="M 0,0 L 1,0 L 1,1 L 0.62,1 L 0.62,0.87 A 0.08 0.08 0 0 0 0.54 0.79 L 0,0.79 L 0,0 Z" />
         </clipPath>
 
         {/* === Project cards — all four corners rounded; ONE concave

@@ -13,8 +13,13 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=80",
   "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=80",
 ];
-// ms each photograph stays before the next crossfade starts.
-const ROTATE_MS = 6500;
+// Verbs that cycle in the headline ("ARQUITECTURA / que [verb]"). Rotates
+// in lockstep with the image — both indices increment on the same tick.
+const VERBS = ["permanece", "respira", "trasciende", "dialoga", "perdura"];
+// ms between each tick. Drives BOTH the image swap and the verb swap.
+// LCM(images, verbs) = LCM(3, 5) = 15 ticks before the pairing repeats,
+// so every image gets paired with every verb at some point.
+const TICK_MS = 5000;
 const FALLBACK_IMG = "/imgs/hero.webp";
 const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
@@ -33,7 +38,12 @@ export function Hero() {
   const coordsRef = useRef<HTMLDivElement | null>(null);
 
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
+  // Single master tick. Both the image carousel and the FlipWords in
+  // the headline derive their active index from this counter, so
+  // every photo swap happens in lockstep with a verb swap.
+  const [tick, setTick] = useState(0);
+  const imageIndex = tick % HERO_IMAGES.length;
+  const wordIndex = tick % VERBS.length;
 
   useEffect(() => {
     setReduceMotion(
@@ -41,13 +51,12 @@ export function Hero() {
     );
   }, []);
 
-  // Auto-rotate the background photograph. Crossfade timing lives in
-  // motion/react below — this just drives which slide is active.
   useEffect(() => {
-    if (reduceMotion || HERO_IMAGES.length <= 1) return;
+    if (reduceMotion) return;
+    if (HERO_IMAGES.length <= 1 && VERBS.length <= 1) return;
     const id = window.setInterval(() => {
-      setImageIndex((i) => (i + 1) % HERO_IMAGES.length);
-    }, ROTATE_MS);
+      setTick((t) => t + 1);
+    }, TICK_MS);
     return () => window.clearInterval(id);
   }, [reduceMotion]);
 
@@ -234,16 +243,7 @@ export function Hero() {
             }}
           >
             que{" "}
-            <FlipWords
-              words={[
-                "permanece",
-                "respira",
-                "trasciende",
-                "dialoga",
-                "perdura",
-              ]}
-              intervalMs={3000}
-            />
+            <FlipWords words={VERBS} index={wordIndex} />
           </span>
         </h1>
 
