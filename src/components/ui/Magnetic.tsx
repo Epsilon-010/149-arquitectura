@@ -52,10 +52,16 @@ export function Magnetic({
   );
 
   const Tag = as;
+  // Use the passed className verbatim. Hardcoding `inline-block` in
+  // front would emit a `display` utility that competes with whatever
+  // the caller passed (e.g. `hidden md:inline-block`) — and Tailwind
+  // v4's cascade has `.inline-block` winning over `.hidden`, so the
+  // mobile-hidden intent silently breaks. Fall back to inline-block
+  // only when the caller doesn't supply any class.
   return (
     <Tag
       ref={ref as never}
-      className={`inline-block ${className}`}
+      className={className.trim() || "inline-block"}
       style={{ willChange: "transform" }}
     >
       {children}

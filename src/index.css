@@ -109,11 +109,13 @@ body {
    default radius, so the rest of the site stays sharp unless an
    explicit `rounded-*` is used. */
 
-/* Hero clip-path — only applied at md+ so mobile gets a full-bleed
-   photograph (no rectangular cutout). The cutout SVG path uses
-   objectBoundingBox 0–1 normalised units, which means the same
-   shape applies regardless of size — on mobile that crops too tight
-   for the headline + flipping verb. */
+/* Hero clip-path — two paths, one per breakpoint. Mobile path is
+   wider on x and shorter on y (portrait viewports need different
+   proportions than landscape) so the photograph never collapses
+   into a vertical strip and the headline always has room. */
+.hero-clip {
+  clip-path: url(#hero-bite-mobile);
+}
 @media (min-width: 768px) {
   .hero-clip {
     clip-path: url(#hero-bite);

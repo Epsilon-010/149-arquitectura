@@ -179,18 +179,6 @@ export function Hero() {
           style={{ background: "rgba(190, 170, 142, 0.16)" }}
         />
 
-        {/* Mobile-only scrim — gives the white headline a clean
-            ground on small screens (no cutout there). Hidden on
-            md+ where the cutout reveals paper bg instead. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] md:hidden"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(28,22,16,0.62) 0%, rgba(28,22,16,0.22) 38%, transparent 100%)",
-          }}
-        />
-
         {/* ===== Top-right: studio meta — hidden on mobile to avoid
             colliding with the navbar logo on narrow viewports. ===== */}
         <div
@@ -220,11 +208,11 @@ export function Hero() {
           </p>
         </div>
 
-        {/* ===== Headline — bottom-left, on the paper bite area, dark
-            type on md+. On mobile (no cutout) it lays over the image
-            in light paper-colour with the scrim above for legibility. */}
+        {/* ===== Headline — bottom-left, on the paper bite area
+            (cutout is present on every breakpoint, just with
+            different proportions). Always dark type on paper. */}
         <h1
-          className="absolute bottom-12 left-5 right-5 z-10 text-ink sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto md:text-fg"
+          className="absolute bottom-12 left-5 right-5 z-10 text-fg sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto"
         >
           <span
             ref={lineOneRef}
