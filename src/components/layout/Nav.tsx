@@ -61,7 +61,12 @@ export function Nav() {
               alt="149 Arquitectura"
               loading="eager"
               decoding="async"
-              className="h-12 w-auto sm:h-16 md:h-20"
+              // Smooth ramp across breakpoints — phones get a more
+              // confident wordmark, tablets/landscape phones the
+              // intermediate step, laptops/desktops the largest
+              // size. Avoids the previous "tablet = phone-size"
+              // jump between sm and md.
+              className="h-16 w-auto sm:h-20 md:h-24 lg:h-28"
               // mix-blend-multiply makes the JPEG/WebP white padding
               // blend into the paper page background, so the logo
               // reads as if it had a transparent background.

@@ -33,17 +33,16 @@ export function ClipDefs() {
           <path d="M 0,0 L 1,0 L 1,1 L 0.53,1 L 0.53,0.76 A 0.14 0.14 0 0 0 0.39 0.62 L 0,0.62 L 0,0 Z" />
         </clipPath>
 
-        {/* Hero — MOBILE. Wider cutout (78% on x) so both ARQUITECTURA
-            and the longest flipping verb fit cleanly. Asymmetric arc
-            radius (rx=0.10, ry=0.05) compensates for the portrait
-            aspect ratio: in objectBoundingBox space, an x-unit on a
-            tall viewport renders as fewer pixels than a y-unit, so a
-            symmetric `A 0.08 0.08` would render as a vertically-
-            stretched ellipse — the "hand-drawn" look. With rx > ry
-            the rendered curve reads as a near-circular quarter on a
-            ~9:16 viewport. */}
+        {/* Hero — MOBILE. Tighter than v1: 65% wide × 21% tall so
+            the cutout matches the natural width of the headline +
+            cycle marker (no leftover empty paper on the right) and
+            the remaining 35% strip on the right reads as a real
+            image column instead of a sliver. Asymmetric arc radius
+            (rx=0.06, ry=0.03) compensates for the portrait aspect
+            ratio so the rendered quarter looks circular, not
+            stretched. */}
         <clipPath id="hero-bite-mobile" clipPathUnits="objectBoundingBox">
-          <path d="M 0,0 L 1,0 L 1,1 L 0.78,1 L 0.78,0.83 A 0.10 0.05 0 0 0 0.68 0.78 L 0,0.78 L 0,0 Z" />
+          <path d="M 0,0 L 1,0 L 1,1 L 0.65,1 L 0.65,0.82 A 0.06 0.03 0 0 0 0.59 0.79 L 0,0.79 L 0,0 Z" />
         </clipPath>
 
         {/* === Project cards — all four corners rounded; ONE concave

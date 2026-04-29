@@ -217,35 +217,66 @@ export function Hero() {
           </p>
         </div>
 
-        {/* ===== Headline — bottom-left, on the paper bite area
-            (cutout is present on every breakpoint, just with
-            different proportions). Always dark type on paper. */}
-        <h1
-          className="absolute bottom-12 left-5 right-5 z-10 text-fg sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto"
-        >
-          <span
-            ref={lineOneRef}
-            className="font-display block leading-[0.88]"
-            style={{
-              fontSize: "clamp(2rem, 8vw, 8rem)",
-              letterSpacing: "-0.025em",
-            }}
+        {/* ===== Headline block — bottom-left, on the paper bite
+            area. Wraps the H1 plus a small cycle marker above so
+            both stay anchored inside the cutout and move together
+            on parallax. The marker tracks the FlipWords / image
+            rotation in lockstep, reading as a plan-style
+            annotation rather than a UI control. ===== */}
+        <div className="absolute bottom-12 left-5 right-5 z-10 sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto">
+          {/* Cycle marker — mono index + 5 tick marks. Active tick
+              widens and shifts to accent color in sync with the
+              verb / image tick. Tabular-nums on the index keeps
+              the digits aligned as the counter ticks up. */}
+          <div
+            aria-hidden="true"
+            className="mb-3 flex items-center gap-3 md:mb-5"
           >
-            ARQUITECTURA
-          </span>
-          <span
-            ref={lineTwoRef}
-            className="font-display block italic leading-[0.88]"
-            style={{
-              fontSize: "clamp(2rem, 8vw, 8rem)",
-              letterSpacing: "-0.025em",
-              opacity: 0.72,
-            }}
-          >
-            que{" "}
-            <FlipWords words={VERBS} index={wordIndex} />
-          </span>
-        </h1>
+            <span
+              className="font-mono text-[0.58rem] uppercase tracking-[0.28em] text-fg-muted sm:text-[0.62rem]"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            >
+              — {String(wordIndex + 1).padStart(2, "0")} · {String(VERBS.length).padStart(2, "0")}
+            </span>
+            <div className="flex items-center gap-[5px]">
+              {VERBS.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-px transition-all duration-700 ${
+                    i === wordIndex
+                      ? "w-7 bg-accent"
+                      : "w-3 bg-fg-faint/60"
+                  }`}
+                  style={{ transitionTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)" }}
+                />
+              ))}
+            </div>
+          </div>
+          <h1 className="text-fg">
+            <span
+              ref={lineOneRef}
+              className="font-display block leading-[0.88]"
+              style={{
+                fontSize: "clamp(2rem, 8vw, 8rem)",
+                letterSpacing: "-0.025em",
+              }}
+            >
+              ARQUITECTURA
+            </span>
+            <span
+              ref={lineTwoRef}
+              className="font-display block italic leading-[0.88]"
+              style={{
+                fontSize: "clamp(2rem, 8vw, 8rem)",
+                letterSpacing: "-0.025em",
+                opacity: 0.72,
+              }}
+            >
+              que{" "}
+              <FlipWords words={VERBS} index={wordIndex} />
+            </span>
+          </h1>
+        </div>
 
         {/* ===== Description card — bottom-right, frosted ===== */}
         <div
