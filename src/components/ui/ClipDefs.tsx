@@ -33,16 +33,14 @@ export function ClipDefs() {
           <path d="M 0,0 L 1,0 L 1,1 L 0.53,1 L 0.53,0.76 A 0.14 0.14 0 0 0 0.39 0.62 L 0,0.62 L 0,0 Z" />
         </clipPath>
 
-        {/* Hero — MOBILE. Tighter than v1: 65% wide × 21% tall so
-            the cutout matches the natural width of the headline +
-            cycle marker (no leftover empty paper on the right) and
-            the remaining 35% strip on the right reads as a real
-            image column instead of a sliver. Asymmetric arc radius
-            (rx=0.06, ry=0.03) compensates for the portrait aspect
-            ratio so the rendered quarter looks circular, not
-            stretched. */}
+        {/* Hero — MOBILE. 75% wide × 21% tall — wider than v2 so
+            the headline + cycle marker breathe with extra paper
+            on either side, while keeping a meaningful 25% image
+            strip on the right. Asymmetric arc radius (rx=0.06,
+            ry=0.03) compensates for the portrait aspect ratio so
+            the rendered quarter looks circular, not stretched. */}
         <clipPath id="hero-bite-mobile" clipPathUnits="objectBoundingBox">
-          <path d="M 0,0 L 1,0 L 1,1 L 0.65,1 L 0.65,0.82 A 0.06 0.03 0 0 0 0.59 0.79 L 0,0.79 L 0,0 Z" />
+          <path d="M 0,0 L 1,0 L 1,1 L 0.75,1 L 0.75,0.82 A 0.06 0.03 0 0 0 0.69 0.79 L 0,0.79 L 0,0 Z" />
         </clipPath>
 
         {/* === Project cards — all four corners rounded; ONE concave

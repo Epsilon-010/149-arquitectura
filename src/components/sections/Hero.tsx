@@ -278,13 +278,23 @@ export function Hero() {
           </h1>
         </div>
 
-        {/* ===== Description card — bottom-right, frosted ===== */}
+        {/* ===== Description card — frosted floating panel.
+            Two positions across breakpoints:
+              · < lg: top-right, below the navbar — sits on the
+                image area at the top of the hero, doesn't fight
+                the headline at the bottom (different vertical
+                zones). Extra top offset per breakpoint so it
+                always clears the responsive nav height.
+              · lg+: bottom-right, the original architectural
+                pairing with the headline at bottom-left.
+            backdrop-blur stays in both positions because the
+            card always sits over image, never over paper. ===== */}
         <div
           ref={cardRef}
-          className="absolute bottom-6 right-5 z-10 hidden max-w-sm sm:right-6 md:bottom-10 md:right-10 lg:block"
+          className="absolute right-5 top-28 z-10 max-w-[85%] sm:right-6 sm:top-32 sm:max-w-sm md:top-40 lg:bottom-10 lg:right-10 lg:top-auto"
         >
           <div
-            className="border p-7 backdrop-blur-md md:p-8"
+            className="border p-5 backdrop-blur-md sm:p-7 md:p-8"
             style={{
               borderColor: "rgba(248, 247, 242, 0.45)",
               background: "rgba(248, 247, 242, 0.85)",
