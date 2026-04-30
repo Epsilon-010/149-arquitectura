@@ -21,12 +21,16 @@ const HERO_IMAGES = [
 // in lockstep with the image — both indices increment on the same tick.
 const VERBS = ["permanece", "respira", "trasciende", "dialoga", "perdura"];
 // ms between each tick. Drives BOTH the image swap and the verb swap.
-// LCM(4, 5) = 20 — image and verb pairings drift across 20 ticks
-// before repeating, so every image gets paired with every verb at
-// some point.
+// LCM(6, 5) = 30 (gcd 1) — every (image, verb) pairing surfaces once
+// across 30 ticks before the cycle repeats.
 const TICK_MS = 5000;
 const FALLBACK_IMG = "/imgs/4.png";
 const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
+// Static colour grade applied to every hero photograph so they read as
+// a coherent series. Lives in motion-controlled props (not the inline
+// `style` filter) because we animate `blur(...)` alongside it during
+// the slide transition — and motion would override `style.filter`.
+const BASE_FILTER = "saturate(0.7) contrast(1.05) brightness(0.96)";
 
 // Propuesta 2 — Hero. The architectural photograph rotates through
 // HERO_IMAGES on a slow loop; the headline (in the bottom-left
@@ -143,15 +147,20 @@ export function Hero() {
       <div className="relative isolate overflow-hidden min-h-dvh">
 
         {/* ===== The photograph =====
-            Rotates through HERO_IMAGES via AnimatePresence — old slide
-            fades out as new slide fades in (1.6s crossfade with a
-            subtle scale cue so it feels alive, not just blink). The
-            wrapper holds the parallax target so the GSAP scrub keeps
-            working across slide swaps; the clipPath bite and filter
-            are reapplied to every motion.img.
-            clip-path: url(#hero-bite) carves the rectangular cutout
-            in the bottom-left where the headline lives on paper. */}
-        <div ref={imageWrapRef} className="absolute inset-0">
+            Rotates through HERO_IMAGES via AnimatePresence. New slide
+            enters from the right with a slight x-offset and a soft
+            blur, sharpening as it lands; old slide drifts to the left
+            and re-blurs out. Reads as turning a page in an editorial
+            monograph rather than a generic crossfade.
+
+            `hero-clip` (the SVG bite shape carving out the bottom-left
+            paper area for the headline) lives on the WRAPPER, not on
+            each <img>. If it lived on the img, the cutout would
+            translate with the slide animation — the headline area
+            would briefly drift across the screen. With the clip on
+            the wrapper the cutout stays fixed; only the photograph
+            inside it moves. */}
+        <div ref={imageWrapRef} className="hero-clip absolute inset-0">
           <AnimatePresence>
             <motion.img
               key={HERO_IMAGES[imageIndex]}
@@ -163,11 +172,23 @@ export function Hero() {
               decoding="async"
               fetchPriority={imageIndex === 0 ? "high" : "auto"}
               draggable={false}
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.04 }}
+              initial={{
+                opacity: 0,
+                x: "5%",
+                filter: `${BASE_FILTER} blur(12px)`,
+              }}
+              animate={{
+                opacity: 1,
+                x: "0%",
+                filter: `${BASE_FILTER} blur(0px)`,
+              }}
+              exit={{
+                opacity: 0,
+                x: "-3%",
+                filter: `${BASE_FILTER} blur(12px)`,
+              }}
               transition={{
-                duration: reduceMotion ? 0 : 1.6,
+                duration: reduceMotion ? 0 : 1.5,
                 ease: EASE_LUXURY,
               }}
               onError={(e) => {
@@ -177,10 +198,7 @@ export function Hero() {
                   t.src = FALLBACK_IMG;
                 }
               }}
-              className="hero-clip absolute inset-0 h-full w-full object-cover"
-              style={{
-                filter: "saturate(0.7) contrast(1.05) brightness(0.96)",
-              }}
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </AnimatePresence>
         </div>
