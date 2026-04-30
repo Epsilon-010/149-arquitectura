@@ -29,10 +29,14 @@ export function Filosofia() {
       {/* Background watermark — giant italic "149" in fg-faint at very
           low opacity, anchored off-canvas to the right. Adds editorial
           depth without competing with the manifesto. Hidden on mobile
-          (would crowd the small viewport). */}
+          (would crowd the small viewport).
+          `transform-gpu` promotes the watermark to its own compositor
+          layer so the giant glyph doesn't have to be repainted on
+          every Lenis-interpolated scroll frame — keeps the hero →
+          Filosofía hand-off buttery. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 top-1/2 hidden -translate-y-1/2 select-none font-display italic leading-none text-fg-faint opacity-25 md:block"
+        className="pointer-events-none absolute -right-16 top-1/2 hidden -translate-y-1/2 transform-gpu select-none font-display italic leading-none text-fg-faint opacity-25 md:block"
         style={{
           fontSize: "clamp(20rem, 38vw, 36rem)",
           letterSpacing: "-0.05em",
@@ -70,6 +74,13 @@ export function Filosofia() {
               // 50 ms stagger × ~62 words ≈ 3.1 s total reveal.
               staggerMs={50}
               duration={0.5}
+              // Disable blur. With ~110 words across both columns
+              // animating concurrently, the GPU cost of blur(10px →
+              // 0px) on each motion.span was producing micro-stutter
+              // exactly when Filosofía entered the viewport during
+              // the Hero → Filosofía scroll. Pure opacity fade keeps
+              // the visual reveal but is ~10× cheaper to paint.
+              filter={false}
               rootMargin="0px 0px -15% 0px"
               className="font-sans block text-fg text-[clamp(0.78rem,1.9vw,1.35rem)] leading-[1.55] md:leading-[1.65]"
             />
@@ -79,6 +90,7 @@ export function Filosofia() {
               segments={EN_SEGMENTS}
               staggerMs={50}
               duration={0.5}
+              filter={false}
               rootMargin="0px 0px -15% 0px"
               className="font-sans block text-fg text-[clamp(0.78rem,1.9vw,1.35rem)] leading-[1.55] md:leading-[1.65]"
             />

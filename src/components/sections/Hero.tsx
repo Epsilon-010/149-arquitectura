@@ -4,27 +4,42 @@ import { AnimatePresence, motion } from "motion/react";
 import { gsap } from "../../lib/motion";
 import { FlipWords } from "../ui/flip-words";
 
-// Background photographs that crossfade behind the headline. Drop more
-// images into /public/imgs/ and add their paths here — the component
-// picks them up automatically. The first entry is used for the initial
-// paint (eager + high priority).
-const HERO_IMAGES = [
-  "/imgs/4.png",
-  "/imgs/8.png",
-  "/imgs/9.png",
-  "/imgs/10.png",
-  "/imgs/1.png",
-  "/imgs/2.png"
+// Background photographs served from Cloudinary. The `cl()` helper
+// injects the transformation chain `f_auto,q_auto,w_1920,c_limit` so:
+//   · f_auto → Cloudinary picks the best format per browser (AVIF
+//     where supported, WebP otherwise, JPG/PNG as last resort).
+//   · q_auto → automatic perceptual-quality compression — typical
+//     savings of 60–85% vs the original PNG with no visible loss.
+//   · w_1920,c_limit → caps width at 1920 px (enough for any
+//     viewport up to ~3K with the object-cover crop) and only
+//     ever downscales, never upscales.
+// To swap an image, replace the public ID at the end of the string.
+// The first entry is used for the initial paint (eager + high
+// priority) so put the most representative photograph there.
+const CL_BASE = "https://res.cloudinary.com/dsiuwnc0c/image/upload";
+const CL_TX = "f_auto,q_auto,w_1920,c_limit";
+const cl = (publicId: string) => `${CL_BASE}/${CL_TX}/${publicId}`;
 
+const HERO_IMAGES = [
+  cl("v1777585820/9_bqiurv.png"),
+  cl("v1777585820/6_nkmbnu.png"),
+  cl("v1777585820/8_hycugz.png"),
+  cl("v1777585819/5_khfglm.png"),
+  cl("v1777585818/4_dz46eh.png"),
+  cl("v1777585818/1_djso8g.png"),
+  cl("v1777585818/2_iv56nt.png"),
 ];
 // Verbs that cycle in the headline ("ARQUITECTURA / que [verb]"). Rotates
 // in lockstep with the image — both indices increment on the same tick.
 const VERBS = ["permanece", "respira", "trasciende", "dialoga", "perdura"];
 // ms between each tick. Drives BOTH the image swap and the verb swap.
-// LCM(6, 5) = 30 (gcd 1) — every (image, verb) pairing surfaces once
-// across 30 ticks before the cycle repeats.
+// LCM(7, 5) = 35 (gcd 1) — every (image, verb) pairing surfaces once
+// across 35 ticks before the cycle repeats.
 const TICK_MS = 5000;
-const FALLBACK_IMG = "/imgs/4.png";
+// Fallback points back to the first Cloudinary image (same CDN /
+// transformation chain) so we degrade gracefully if any single
+// public ID 404s — staying consistent with the rest of the slideshow.
+const FALLBACK_IMG = HERO_IMAGES[0];
 const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 // Static colour grade applied to every hero photograph so they read as
 // a coherent series. Lives in motion-controlled props (not the inline
@@ -266,8 +281,8 @@ export function Hero() {
                 <span
                   key={i}
                   className={`h-px transition-all duration-700 ${i === wordIndex
-                      ? "w-7 bg-accent"
-                      : "w-3 bg-fg-faint/60"
+                    ? "w-7 bg-accent"
+                    : "w-3 bg-fg-faint/60"
                     }`}
                   style={{ transitionTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)" }}
                 />

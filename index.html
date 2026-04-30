@@ -25,7 +25,9 @@
       property="og:description"
       content="Estudio de arquitectura contemporánea en Oaxaca. Cada proyecto comienza con la pregunta de cómo debe sentirse el lugar."
     />
-    <meta property="og:image" content="https://149arquitectura.mx/imgs/hero.webp" />
+    <meta property="og:image" content="https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1200,h_630,c_fill,g_auto/v1777585820/9_bqiurv.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Casa contemporánea diseñada por 149 Arquitectura" />
 
     <!-- Twitter -->
@@ -35,12 +37,14 @@
       name="twitter:description"
       content="Estudio de arquitectura contemporánea en Oaxaca."
     />
-    <meta name="twitter:image" content="https://149arquitectura.mx/imgs/hero.webp" />
+    <meta name="twitter:image" content="https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1200,h_630,c_fill,g_auto/v1777585820/9_bqiurv.png" />
 
-    <!-- Resource hints -->
+    <!-- Resource hints. Cloudinary serves all hero photographs; opening
+         the TLS connection early lets the LCP image start downloading
+         the moment the HTML lands. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
 
     <!-- Caviar Dreams (display + body) — local. Preload only the two
          variants that show above the fold (Regular + Italic) to keep
@@ -59,8 +63,11 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
-    <!-- Preload the hero image so LCP fires on the first paint -->
-    <link rel="preload" as="image" href="/imgs/hero.webp" fetchpriority="high" />
+    <!-- Preload the LCP image (first hero photograph) with the same
+         Cloudinary URL Hero.tsx requests, so the preload hits the
+         cache the moment the React component mounts. URL must match
+         exactly — any difference defeats the preload. -->
+    <link rel="preload" as="image" href="https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1920,c_limit/v1777585820/9_bqiurv.png" fetchpriority="high" crossorigin />
 
     <title>149 Arquitectura — Estudio de Arquitectura Contemporánea en Oaxaca</title>
 
@@ -73,7 +80,7 @@
         "name": "149 Arquitectura",
         "description": "Estudio de arquitectura contemporánea en Oaxaca de Juárez",
         "url": "https://149arquitectura.mx/",
-        "image": "https://149arquitectura.mx/imgs/hero.webp",
+        "image": "https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1200,h_630,c_fill,g_auto/v1777585820/9_bqiurv.png",
         "telephone": "+5219513505166",
         "priceRange": "$$$",
         "address": {
