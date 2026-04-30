@@ -53,12 +53,16 @@ export function Filosofia() {
           <div className="mb-12 h-px w-full bg-line md:mb-16" />
         </Reveal>
 
-        {/* Bilingual manifesto — ES left, EN right. Hairline vertical
-            divider between columns at md+ reads as a fold or plan
-            line. Both columns share the same scroll-proximity trigger
-            so they resolve word-by-word in parallel. */}
-        <div className="grid grid-cols-1 gap-y-14 md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
-          <div className="md:pr-2">
+        {/* Bilingual manifesto — ES left, EN right, side by side on
+            EVERY breakpoint (including mobile). Hairline vertical
+            divider between the columns reads as a fold or plan line.
+            Both columns share the same scroll-proximity trigger so
+            they resolve word-by-word in parallel. Type size, gap and
+            inner padding all scale down on phones so two columns of
+            running prose still fit comfortably in a 320–400 px
+            viewport. */}
+        <div className="grid grid-cols-2 gap-x-4 md:gap-x-12 lg:gap-x-20">
+          <div className="pr-1 md:pr-2">
             <TextGenerateEffect
               segments={ES_SEGMENTS}
               // Faster than the original — there's a lot more copy
@@ -67,16 +71,16 @@ export function Filosofia() {
               staggerMs={50}
               duration={0.5}
               rootMargin="0px 0px -15% 0px"
-              className="font-sans block text-fg text-[clamp(1.1rem,1.6vw,1.4rem)] leading-[1.65]"
+              className="font-sans block text-fg text-[clamp(0.78rem,1.9vw,1.35rem)] leading-[1.55] md:leading-[1.65]"
             />
           </div>
-          <div className="md:border-l md:border-line md:pl-12 lg:pl-20">
+          <div className="border-l border-line pl-4 md:pl-12 lg:pl-20">
             <TextGenerateEffect
               segments={EN_SEGMENTS}
               staggerMs={50}
               duration={0.5}
               rootMargin="0px 0px -15% 0px"
-              className="font-sans block text-fg text-[clamp(1.1rem,1.6vw,1.4rem)] leading-[1.65]"
+              className="font-sans block text-fg text-[clamp(0.78rem,1.9vw,1.35rem)] leading-[1.55] md:leading-[1.65]"
             />
           </div>
         </div>
