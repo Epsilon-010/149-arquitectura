@@ -66,7 +66,7 @@ export function Nav() {
               // intermediate step, laptops/desktops the largest
               // size. Avoids the previous "tablet = phone-size"
               // jump between sm and md.
-              className="h-16 w-auto sm:h-20 md:h-24 lg:h-28"
+              className="h-20 w-auto sm:h-24 md:h-28 lg:h-32"
               // mix-blend-multiply makes the JPEG/WebP white padding
               // blend into the paper page background, so the logo
               // reads as if it had a transparent background.
@@ -82,7 +82,7 @@ export function Nav() {
                 // Bumped contrast (text-fg!), medium weight (font-mono
                 // 500), and a hair more tracking + size than .label-eyebrow.
                 // Reads as proper navigation rather than incidental copy.
-                className="link-underline font-mono text-[0.78rem] font-medium uppercase tracking-[0.26em] text-fg transition-colors duration-500 hover:text-accent"
+                className="link-underline font-mono text-[0.85rem] font-medium uppercase tracking-[0.26em] text-black transition-colors duration-500 hover:text-accent"
               >
                 {link.label}
               </a>
@@ -108,10 +108,10 @@ export function Nav() {
             className="relative flex h-10 w-10 flex-col items-center justify-center gap-[6px] md:hidden"
           >
             <span
-              className={`h-px w-6 bg-fg transition-transform duration-500 ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+              className={`h-px w-6 bg-black transition-transform duration-500 ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
             />
             <span
-              className={`h-px w-6 bg-fg transition-transform duration-500 ${open ? "translate-y-[-3.5px] -rotate-45" : ""}`}
+              className={`h-px w-6 bg-black transition-transform duration-500 ${open ? "translate-y-[-3.5px] -rotate-45" : ""}`}
             />
           </button>
         </div>

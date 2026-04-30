@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 
-type Segment = { text: string; italic?: boolean; muted?: boolean };
+type Segment = {
+  text: string;
+  italic?: boolean;
+  muted?: boolean;
+  /** Apply font-weight: 700. With Caviar Dreams that pulls in the Bold
+      variant; useful for the "149ARQUITECTURA" wordmark inline in the
+      manifesto. */
+  bold?: boolean;
+};
 
 type Props = {
   /** Plain string — split into words. */
@@ -76,13 +84,18 @@ export function TextGenerateEffect({
         word,
         italic: seg.italic,
         muted: seg.muted,
+        bold: seg.bold,
       })),
   );
 
   return (
     <div ref={containerRef} className={className}>
-      {wordList.map(({ word, italic, muted }, idx) => {
-        const cls = [italic ? "italic" : "", muted ? "text-fg-muted" : ""]
+      {wordList.map(({ word, italic, muted, bold }, idx) => {
+        const cls = [
+          italic ? "italic" : "",
+          muted ? "text-fg-muted" : "",
+          bold ? "font-bold" : "",
+        ]
           .filter(Boolean)
           .join(" ");
         // Span stays as default `inline` (no inline-block). Inline

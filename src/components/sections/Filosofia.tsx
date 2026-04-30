@@ -1,40 +1,84 @@
 import { Reveal } from "../ui/Reveal";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 
-// Manifesto split into segments — each segment carries its own emphasis
-// (italic / muted). TextGenerateEffect flattens them into per-word
-// spans and runs a blur+fade reveal once on scroll proximity.
-const SEGMENTS = [
-  { text: "Cada proyecto comienza con una pregunta." },
-  { text: "¿Cómo debería sentirse este lugar?", italic: true, muted: true },
+// Bilingual manifesto — Spanish + English presented as parallel columns.
+// Each column animates word-by-word via TextGenerateEffect. The wordmark
+// "149ARQUITECTURA" is bolded inline at the start of each side.
+const ES_SEGMENTS = [
+  { text: "149ARQUITECTURA", bold: true },
   {
     text:
-      "La respuesta define cada decisión que sigue: la luz, los materiales, la proporción.",
+      "es un taller de diseño y construcción con base en la ciudad de Oaxaca, centramos nuestro esfuerzo en concebir la creación del espacio como un escenario para la vida, humanizante y significante, con responsabilidad social, ambiental y cultural, creemos en la arquitectura como un oficio y un trabajo multidisciplinar.",
+  },
+];
+
+const EN_SEGMENTS = [
+  { text: "149ARQUITECTURA", bold: true },
+  {
+    text:
+      "is a design and construction workshop based in Oaxaca city. We focus our effort on conceiving the creation of space as a stage for life, humanizing and meaningful, with social, environmental, and cultural responsibility. We believe in architecture as a craft and a multidisciplinary profession.",
   },
 ];
 
 export function Filosofia() {
   return (
-    <section id="filosofia" className="section-pad relative bg-surface">
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-12 gap-y-14 px-5 sm:px-6 md:gap-y-20 md:px-10">
-        <Reveal as="div" className="col-span-12 md:col-span-3">
+    <section
+      id="filosofia"
+      className="section-pad relative overflow-hidden bg-surface"
+    >
+      {/* Background watermark — giant italic "149" in fg-faint at very
+          low opacity, anchored off-canvas to the right. Adds editorial
+          depth without competing with the manifesto. Hidden on mobile
+          (would crowd the small viewport). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-16 top-1/2 hidden -translate-y-1/2 select-none font-display italic leading-none text-fg-faint opacity-25 md:block"
+        style={{
+          fontSize: "clamp(20rem, 38vw, 36rem)",
+          letterSpacing: "-0.05em",
+        }}
+      >
+        149
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-10">
+        {/* Eyebrow */}
+        <Reveal as="div" className="mb-10 md:mb-14">
           <span className="label-eyebrow">— 01 / Filosofía</span>
         </Reveal>
 
-        <div className="col-span-12 md:col-span-9">
-          <TextGenerateEffect
-            segments={SEGMENTS}
-            // Slower stagger + per-word duration so the manifesto
-            // reads as deliberate, meditative — each word resolves
-            // before the next starts to clear up.
-            staggerMs={140}
-            duration={1.1}
-            // Fires when the paragraph's bottom is ~20% above the
-            // bottom of the viewport — so the user sees the reveal
-            // start as they approach, not after they're already past.
-            rootMargin="0px 0px -20% 0px"
-            className="font-display text-fg text-[clamp(1.85rem,4.2vw,3.75rem)] leading-[1.4] tracking-[-0.01em]"
-          />
+        {/* Hairline divider above the manifesto — architectural rule
+            that frames the bilingual block as a deliberate plane. */}
+        <Reveal>
+          <div className="mb-12 h-px w-full bg-line md:mb-16" />
+        </Reveal>
+
+        {/* Bilingual manifesto — ES left, EN right. Hairline vertical
+            divider between columns at md+ reads as a fold or plan
+            line. Both columns share the same scroll-proximity trigger
+            so they resolve word-by-word in parallel. */}
+        <div className="grid grid-cols-1 gap-y-14 md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
+          <div className="md:pr-2">
+            <TextGenerateEffect
+              segments={ES_SEGMENTS}
+              // Faster than the original — there's a lot more copy
+              // to resolve, so a meditative pace would feel tedious.
+              // 50 ms stagger × ~62 words ≈ 3.1 s total reveal.
+              staggerMs={50}
+              duration={0.5}
+              rootMargin="0px 0px -15% 0px"
+              className="font-sans block text-fg text-[clamp(1.1rem,1.6vw,1.4rem)] leading-[1.65]"
+            />
+          </div>
+          <div className="md:border-l md:border-line md:pl-12 lg:pl-20">
+            <TextGenerateEffect
+              segments={EN_SEGMENTS}
+              staggerMs={50}
+              duration={0.5}
+              rootMargin="0px 0px -15% 0px"
+              className="font-sans block text-fg text-[clamp(1.1rem,1.6vw,1.4rem)] leading-[1.65]"
+            />
+          </div>
         </div>
       </div>
     </section>

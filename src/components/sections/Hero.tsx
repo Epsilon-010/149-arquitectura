@@ -5,22 +5,24 @@ import { gsap } from "../../lib/motion";
 import { FlipWords } from "../ui/flip-words";
 
 // Background photographs that crossfade behind the headline. Drop more
-// .webp files into /public/imgs/ and add their paths here — the
-// component picks them up automatically. The first entry is used for
-// the initial paint (eager + high priority).
+// images into /public/imgs/ and add their paths here — the component
+// picks them up automatically. The first entry is used for the initial
+// paint (eager + high priority).
 const HERO_IMAGES = [
-  "/imgs/hero.webp",
-  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=80",
-  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=80",
+  "/imgs/4.png",
+  "/imgs/8.png",
+  "/imgs/9.png",
+  "/imgs/10.png",
 ];
 // Verbs that cycle in the headline ("ARQUITECTURA / que [verb]"). Rotates
 // in lockstep with the image — both indices increment on the same tick.
 const VERBS = ["permanece", "respira", "trasciende", "dialoga", "perdura"];
 // ms between each tick. Drives BOTH the image swap and the verb swap.
-// LCM(images, verbs) = LCM(3, 5) = 15 ticks before the pairing repeats,
-// so every image gets paired with every verb at some point.
+// LCM(4, 5) = 20 — image and verb pairings drift across 20 ticks
+// before repeating, so every image gets paired with every verb at
+// some point.
 const TICK_MS = 5000;
-const FALLBACK_IMG = "/imgs/hero.webp";
+const FALLBACK_IMG = "/imgs/4.png";
 const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
 // Propuesta 2 — Hero. The architectural photograph rotates through
