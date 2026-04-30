@@ -13,6 +13,9 @@ const HERO_IMAGES = [
   "/imgs/8.png",
   "/imgs/9.png",
   "/imgs/10.png",
+  "/imgs/1.png",
+  "/imgs/2.png"
+
 ];
 // Verbs that cycle in the headline ("ARQUITECTURA / que [verb]"). Rotates
 // in lockstep with the image — both indices increment on the same tick.
@@ -244,11 +247,10 @@ export function Hero() {
               {VERBS.map((_, i) => (
                 <span
                   key={i}
-                  className={`h-px transition-all duration-700 ${
-                    i === wordIndex
+                  className={`h-px transition-all duration-700 ${i === wordIndex
                       ? "w-7 bg-accent"
                       : "w-3 bg-fg-faint/60"
-                  }`}
+                    }`}
                   style={{ transitionTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)" }}
                 />
               ))}
