@@ -150,7 +150,11 @@ export function StickyScroll({
   return (
     <div
       ref={containerRef}
-      className={`grid grid-cols-12 gap-y-12 lg:gap-x-12 ${className}`}
+      // `relative` is load-bearing — motion's useScroll() needs a
+      // non-static container to compute scroll offsets accurately;
+      // without it, you get the runtime warning and `scrollYProgress`
+      // is measured against the document instead of this section.
+      className={`relative grid grid-cols-12 gap-y-12 lg:gap-x-12 ${className}`}
     >
       {/* ===== LEFT — scrolling editorial list ===== */}
       <ul className="col-span-12 lg:col-span-7">

@@ -1,65 +1,117 @@
+import projectImages from "./cloudinary-projects.json";
+
 export type Proyecto = {
+  /** URL slug — used for future routing & anchors. */
+  slug: string;
+  /** Project number shown in the editorial metadata strip. */
   numero: string;
   titulo: string;
-  categoria: "Residencial" | "Corporativo" | "Interiorismo" | "Hospitalidad";
-  ano: number;
+  /** Free-form so the studio can use whatever taxonomy fits — not
+      gated to a fixed enum. */
+  categoria: string;
+  /** Year string — supports ranges like "2022–2025" without coercion. */
+  ano: string;
   ciudad: string;
-  imagen: string;
+  /** All images for the project, in the order Cloudinary returns them
+      (sorted alphabetically by `public_id`). The first item is used
+      as the cover; the rest cycle on hover. May be empty if the
+      Cloudinary folder is empty or the fetch script hasn't run. */
+  imagenes: string[];
 };
 
-export const PROYECTOS: Proyecto[] = [
+// Manual project metadata. Pairs by index with the `proyects/N/`
+// folders in Cloudinary — entry [0] gets images from `proyects/1/`,
+// entry [1] from `proyects/2/`, etc. Add/remove from this list AND
+// the corresponding folder; the carousel handles empty arrays.
+const META: Omit<Proyecto, "imagenes">[] = [
   {
-    numero: "149.024",
-    titulo: "Casa Pedregal",
+    slug: "ferrocarril",
+    numero: "149.001",
+    titulo: "Departamento Ferrocarril",
+    categoria: "Remodelación / Interiorismo",
+    ano: "2026",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "los-jardines",
+    numero: "149.002",
+    titulo: "Los Jardines",
     categoria: "Residencial",
-    ano: 2024,
-    ciudad: "Ciudad de México",
-    imagen:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=75",
+    ano: "2023",
+    ciudad: "Oaxaca, MX",
   },
   {
-    numero: "149.022",
-    titulo: "Torre Reforma 88",
-    categoria: "Corporativo",
-    ano: 2023,
-    ciudad: "Ciudad de México",
-    imagen:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=75",
-  },
-  {
-    numero: "149.021",
-    titulo: "Atelier Centro",
-    categoria: "Interiorismo",
-    ano: 2023,
-    ciudad: "Oaxaca de Juárez",
-    imagen:
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=75",
-  },
-  {
-    numero: "149.019",
-    titulo: "Pabellón Valle",
+    slug: "huayapam",
+    numero: "149.003",
+    titulo: "Huayapam",
     categoria: "Residencial",
-    ano: 2022,
-    ciudad: "Valle de Bravo",
-    imagen:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=75",
+    ano: "2024",
+    ciudad: "Oaxaca, MX",
   },
   {
-    numero: "149.017",
-    titulo: "Hotel Costera",
-    categoria: "Hospitalidad",
-    ano: 2022,
-    ciudad: "Tulum",
-    imagen:
-      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=75",
+    slug: "las-cruces",
+    numero: "149.004",
+    titulo: "Las Cruces",
+    categoria: "Residencial",
+    ano: "2025",
+    ciudad: "Oaxaca, MX",
   },
   {
-    numero: "149.014",
-    titulo: "Loft Industrial",
-    categoria: "Interiorismo",
-    ano: 2021,
-    ciudad: "Monterrey",
-    imagen:
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=75",
+    slug: "babilonia",
+    numero: "149.005",
+    titulo: "Babilonia",
+    categoria: "Residencial",
+    ano: "2025",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "la-purisima",
+    numero: "149.006",
+    titulo: "La Purísima",
+    // Categoría no definida por el cliente — defaulteada a Residencial
+    // (la mayoría del portafolio lo es). Cambiar aquí si se confirma
+    // otra clasificación.
+    categoria: "Residencial",
+    ano: "2022",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "terra",
+    numero: "149.007",
+    titulo: "Terra",
+    categoria: "Hotelero",
+    ano: "2023",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "escondida",
+    numero: "149.008",
+    titulo: "Escondida",
+    categoria: "Residencial",
+    ano: "2024",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "zegache",
+    numero: "149.009",
+    titulo: "Zegache",
+    categoria: "Proyecto Social",
+    ano: "2022–2025",
+    ciudad: "Oaxaca, MX",
+  },
+  {
+    slug: "constitucion",
+    numero: "149.010",
+    titulo: "Constitución",
+    categoria: "Residencial",
+    ano: "2026",
+    ciudad: "Oaxaca, MX",
   },
 ];
+
+const images = projectImages as Record<string, string[]>;
+
+export const PROYECTOS: Proyecto[] = META.map((meta, i) => ({
+  ...meta,
+  imagenes: images[String(i + 1)] ?? [],
+}));

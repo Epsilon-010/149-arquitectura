@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { Reveal } from "../ui/Reveal";
 import { RevealText } from "../ui/RevealText";
-import { DirectionAwareHover } from "../ui/direction-aware-hover";
+import { ProjectImageCarousel } from "../ui/ProjectImageCarousel";
 import { gsap, prefersReducedMotion } from "../../lib/motion";
 import { PROYECTOS, type Proyecto } from "../../data/proyectos";
 
@@ -20,7 +20,14 @@ function ProjectCard({
   return (
     <a
       href="#"
-      className="group relative block"
+      // Override the global :focus-visible 1px-outline with offset-4
+      // (defined in index.css). On a card whose visible image is
+      // clipped by an organic SVG bite shape, the rectangular outline
+      // doesn't match the card's actual silhouette — reads as a
+      // stray line "completing the rectangle" around it. Until the
+      // cards link somewhere (real project pages), there's no
+      // navigation to indicate.
+      className="group relative block focus-visible:outline-none"
       aria-label={`Proyecto ${p.numero} — ${p.titulo}`}
     >
       {/* Image stage — three nested layers because we have three
@@ -38,9 +45,9 @@ function ProjectCard({
             className="absolute inset-0"
             style={{ clipPath: `url(#${biteId})` }}
           >
-            <DirectionAwareHover
-              imageUrl={p.imagen}
-              imageAlt={`${p.titulo}, ${p.ciudad}`}
+            <ProjectImageCarousel
+              images={p.imagenes}
+              alt={`${p.titulo}, ${p.ciudad}`}
             />
           </div>
         </div>
@@ -68,7 +75,9 @@ function ProjectCard({
 
 export function Proyectos() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [a, b, c, d, e, f] = PROYECTOS;
+  // 10 projects, destructured for ergonomic JSX. If the count
+  // changes, update both this destructuring and the JSX below.
+  const [a, b, c, d, e, f, g, h, i, j] = PROYECTOS;
 
   useGSAP(
     () => {
@@ -111,8 +120,8 @@ export function Proyectos() {
         "[data-parallax]",
         root,
       );
-      cards.forEach((card, i) => {
-        const range = i % 2 === 0 ? 5 : 10;
+      cards.forEach((card, idx) => {
+        const range = idx % 2 === 0 ? 5 : 10;
         gsap.fromTo(
           card,
           { yPercent: -range },
@@ -162,7 +171,13 @@ export function Proyectos() {
           </Reveal>
         </div>
 
+        {/* 10-project asymmetric grid. Five rows, each pairing a wide
+            and a narrow card with vertical mt offsets so the layout
+            never collapses into a uniform table. Bite shapes (bite-1
+            through bite-6) cycle so adjacent cards never share a
+            silhouette; repeats are spaced 4–7 cards apart. */}
         <div className="grid grid-cols-12 gap-x-5 gap-y-16 sm:gap-x-8 sm:gap-y-20 md:gap-x-10 md:gap-y-24">
+          {/* Row 1 */}
           <Reveal className="col-span-12 md:col-span-8">
             <ProjectCard p={a} ratio="aspect-[16/10]" biteId="bite-1" />
           </Reveal>
@@ -170,6 +185,7 @@ export function Proyectos() {
             <ProjectCard p={b} ratio="aspect-[3/4]" biteId="bite-2" />
           </Reveal>
 
+          {/* Row 2 */}
           <Reveal className="col-span-12 md:col-span-5">
             <ProjectCard p={c} ratio="aspect-[4/5]" biteId="bite-3" />
           </Reveal>
@@ -177,11 +193,28 @@ export function Proyectos() {
             <ProjectCard p={d} ratio="aspect-[16/10]" biteId="bite-4" />
           </Reveal>
 
+          {/* Row 3 */}
           <Reveal className="col-span-12 md:col-span-7">
             <ProjectCard p={e} ratio="aspect-[16/10]" biteId="bite-5" />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
             <ProjectCard p={f} ratio="aspect-[4/5]" biteId="bite-6" />
+          </Reveal>
+
+          {/* Row 4 */}
+          <Reveal className="col-span-12 md:col-span-4">
+            <ProjectCard p={g} ratio="aspect-[3/4]" biteId="bite-2" />
+          </Reveal>
+          <Reveal className="col-span-12 md:col-span-8 md:mt-24" delay={1}>
+            <ProjectCard p={h} ratio="aspect-[16/10]" biteId="bite-1" />
+          </Reveal>
+
+          {/* Row 5 */}
+          <Reveal className="col-span-12 md:col-span-7">
+            <ProjectCard p={i} ratio="aspect-[16/10]" biteId="bite-4" />
+          </Reveal>
+          <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
+            <ProjectCard p={j} ratio="aspect-[4/5]" biteId="bite-3" />
           </Reveal>
         </div>
       </div>

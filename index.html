@@ -44,7 +44,7 @@
          the moment the HTML lands. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
 
     <!-- Caviar Dreams (display + body) — local. Preload only the two
          variants that show above the fold (Regular + Italic) to keep
@@ -66,8 +66,11 @@
     <!-- Preload the LCP image (first hero photograph) with the same
          Cloudinary URL Hero.tsx requests, so the preload hits the
          cache the moment the React component mounts. URL must match
-         exactly — any difference defeats the preload. -->
-    <link rel="preload" as="image" href="https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1920,c_limit/v1777585820/9_bqiurv.png" fetchpriority="high" crossorigin />
+         exactly — any difference defeats the preload. No `crossorigin`
+         attribute because the <img> in Hero.tsx is rendered without
+         `crossOrigin`, and the preload's credentials mode must match
+         the actual request or the browser refetches the resource. -->
+    <link rel="preload" as="image" href="https://res.cloudinary.com/dsiuwnc0c/image/upload/f_auto,q_auto,w_1920,c_limit/v1777585820/9_bqiurv.png" fetchpriority="high" />
 
     <title>149 Arquitectura — Estudio de Arquitectura Contemporánea en Oaxaca</title>
 
