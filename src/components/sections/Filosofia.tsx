@@ -36,9 +36,12 @@ export function Filosofia() {
           Filosofía hand-off buttery. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 top-1/2 hidden -translate-y-1/2 transform-gpu select-none font-display italic leading-none text-fg-faint opacity-25 md:block"
+        className="pointer-events-none absolute -right-[clamp(2rem,4vw,4rem)] top-1/2 hidden -translate-y-1/2 transform-gpu select-none font-display italic leading-none text-fg-faint opacity-25 md:block"
         style={{
-          fontSize: "clamp(20rem, 38vw, 36rem)",
+          // Tighter clamp than v1 — the previous max (36rem ≈
+          // 576 px) dominated wide screens (>1440 px). 28rem caps
+          // the watermark at a more editorial scale.
+          fontSize: "clamp(14rem, 30vw, 28rem)",
           letterSpacing: "-0.05em",
         }}
       >

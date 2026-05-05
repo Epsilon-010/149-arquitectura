@@ -226,11 +226,17 @@ export function Hero() {
           style={{ background: "rgba(190, 170, 142, 0.16)" }}
         />
 
-        {/* ===== Top-right: studio meta — hidden on mobile to avoid
-            colliding with the navbar logo on narrow viewports. ===== */}
+        {/* ===== Top-right: studio meta — only visible at lg+
+            (≥1024 px), where the desktop nav also kicks in.
+            Below 1024 px the hamburger button lives in the same
+            top-right corner — having both on top of each other
+            would clobber the layout (and on iPad portrait was
+            literally crashing into the nav links).
+            Fluid right offset matches the headline's left offset
+            so both edges stay symmetric across breakpoints. ===== */}
         <div
           ref={metaRef}
-          className="absolute right-5 top-6 z-10 hidden sm:right-6 md:right-10 md:top-10 md:block"
+          className="absolute right-[clamp(1.25rem,3vw,2.5rem)] top-[clamp(1.5rem,3vh,2.5rem)] z-10 hidden lg:block"
           style={{ color: "#F8F7F2" }}
         >
           <p className="font-mono text-right text-[0.7rem] uppercase tracking-[0.28em] opacity-85">
@@ -241,11 +247,12 @@ export function Hero() {
         </div>
 
         {/* ===== Bottom-left: coordinates — now sits on paper, tone
-            it down to fg-faint so it reads as discrete metadata. */}
+            it down to fg-faint so it reads as discrete metadata.
+            Fluid offsets match the headline + meta block. */}
         <div
           ref={coordsRef}
           aria-hidden="true"
-          className="absolute bottom-4 left-5 z-10 hidden sm:left-6 md:bottom-6 md:left-10 md:block"
+          className="absolute bottom-[clamp(1rem,2vh,1.5rem)] left-[clamp(1.25rem,3vw,2.5rem)] z-10 hidden md:block"
         >
           <p
             className="font-mono text-[0.6rem] uppercase tracking-[0.28em] text-fg-faint"
@@ -260,8 +267,14 @@ export function Hero() {
             both stay anchored inside the cutout and move together
             on parallax. The marker tracks the FlipWords / image
             rotation in lockstep, reading as a plan-style
-            annotation rather than a UI control. ===== */}
-        <div className="absolute bottom-12 left-5 right-5 z-10 sm:bottom-16 sm:left-6 md:bottom-20 md:left-10 md:right-auto">
+            annotation rather than a UI control.
+
+            Bottom + left use `clamp()` of vh/vw rather than fixed
+            sm/md/lg jumps — keeps the headline anchored to the
+            same proportional spot on every viewport (320 px phone,
+            1280 px laptop, 1920 px desktop) without snap-changes
+            at the breakpoints. ===== */}
+        <div className="absolute bottom-[clamp(2.5rem,7vh,5rem)] left-[clamp(1.25rem,3vw,2.5rem)] right-[clamp(1.25rem,3vw,2.5rem)] z-10 md:right-auto">
           {/* Cycle marker — mono index + 5 tick marks. Active tick
               widens and shifts to accent color in sync with the
               verb / image tick. Tabular-nums on the index keeps
@@ -290,15 +303,40 @@ export function Hero() {
             </div>
           </div>
           <h1 className="text-fg">
-            {/* Font size split per breakpoint:
-                · < md: clamp(1.75rem, 6.5vw, 7rem) — smaller so
-                  ARQUITECTURA + the longest verb fit comfortably
-                  inside the 65%-wide mobile cutout.
-                · md+: clamp(2rem, 8vw, 8rem) — original desktop
-                  scale, untouched. */}
+            {/* Width AND height-aware clamp:
+                `clamp(1.75rem, min(4vw, calc(22vh - 50px)), 5rem)`
+
+                Conservative `4vw` factor (was 5) — measured italic
+                Caviar Dreams "trasciende" actually renders at
+                ~11 char-units wide (wider than typical italic),
+                so 5vw ran the line past the cutout's curved edge
+                at lg sizes. 4vw guarantees ≥100 px horizontal
+                margin between the longest verb line and the
+                cutout boundary at every viewport from phone to 4K.
+
+                The hero cutout is 53 % wide × 38 % tall. Either
+                axis can become the binding constraint depending on
+                the viewport's aspect ratio:
+
+                · Wide screens (Mac, monitor): cutout has plenty of
+                  vertical room → width is binding → `5.5vw` rules.
+                · Short / landscape phones (e.g. iPhone landscape
+                  at 812 × 375): cutout is only 142 px tall → 2-
+                  line headline can't fit → height becomes binding.
+
+                The vertical fit budget:
+                  cutout_height = 0.38 × vh
+                  block_height  = 28 px (marker + gap) + 1.76 × font
+                  bottom_offset = ~40 px
+                Solving: font ≤ (0.38vh − 28 − 40) / 1.76 ≈ 22vh − 50px
+
+                `min()` picks whichever constraint is tighter for
+                the current viewport; clamp's outer bounds keep the
+                font readable on tiny phones and from blowing up on
+                4K monitors. */}
             <span
               ref={lineOneRef}
-              className="font-display block leading-[0.88] text-[clamp(1.75rem,6.5vw,7rem)] md:text-[clamp(2rem,8vw,8rem)]"
+              className="font-display block leading-[0.88] text-[clamp(1.75rem,min(4vw,calc(22vh_-_50px)),5rem)]"
               style={{
                 letterSpacing: "-0.025em",
               }}
@@ -321,10 +359,12 @@ export function Hero() {
 
         {/* ===== Description card — bottom-right, frosted. Only
             visible on lg+ — on phones/tablets the hero stays
-            uncluttered with just headline + cycle marker. ===== */}
+            uncluttered with just headline + cycle marker. Fluid
+            offset + clamp on max-width so the card scales with
+            viewport width instead of jumping at sm/md. ===== */}
         <div
           ref={cardRef}
-          className="absolute bottom-6 right-5 z-10 hidden max-w-sm sm:right-6 md:bottom-10 md:right-10 lg:block"
+          className="absolute bottom-[clamp(2rem,4.5vh,3.5rem)] right-[clamp(1.5rem,3.5vw,2.75rem)] z-10 hidden max-w-[clamp(20rem,28vw,24rem)] lg:block"
         >
           <div
             className="border p-7 backdrop-blur-md md:p-8"

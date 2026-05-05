@@ -74,14 +74,19 @@ export function Nav() {
             />
           </a>
 
-          <nav className="hidden items-center gap-10 md:flex" aria-label="Principal">
+          {/* Desktop nav + Conversación link: visible at lg+ (≥1024 px).
+              Below 1024 px (incl. iPad portrait at 768 × 1024) the
+              4 nav items + Conversación + the wide bumped logo
+              don't fit in the available 688 px without crashing
+              into each other — so on those viewports we fall back
+              to the hamburger overlay menu. CONVERSACIÓN is the
+              longest item (12 chars + tracking) and the binding
+              constraint. */}
+          <nav className="hidden items-center gap-10 lg:flex" aria-label="Principal">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                // Bumped contrast (text-fg!), medium weight (font-mono
-                // 500), and a hair more tracking + size than .label-eyebrow.
-                // Reads as proper navigation rather than incidental copy.
                 className="link-underline font-mono text-[0.85rem] font-medium uppercase tracking-[0.26em] text-black transition-colors duration-500 hover:text-accent"
               >
                 {link.label}
@@ -89,12 +94,12 @@ export function Nav() {
             ))}
           </nav>
 
-          <Magnetic className="hidden md:inline-block" strength={0.3}>
+          <Magnetic className="hidden lg:inline-block" strength={0.3}>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline font-mono text-[0.78rem] font-medium uppercase tracking-[0.26em] text-fg transition-colors duration-500 hover:text-accent"
+              className="link-underline font-mono text-[0.85rem] font-medium uppercase tracking-[0.26em] text-black transition-colors duration-500 hover:text-accent"
             >
               Conversación
             </a>
@@ -105,7 +110,7 @@ export function Nav() {
             aria-expanded={open}
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             onClick={() => setOpen((v) => !v)}
-            className="relative flex h-10 w-10 flex-col items-center justify-center gap-[6px] md:hidden"
+            className="relative flex h-10 w-10 flex-col items-center justify-center gap-[6px] lg:hidden"
           >
             <span
               className={`h-px w-6 bg-black transition-transform duration-500 ${open ? "translate-y-[3.5px] rotate-45" : ""}`}

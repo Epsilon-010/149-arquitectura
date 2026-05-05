@@ -32,10 +32,19 @@ const EASE_LUXURY: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 // All values are static string literals so Tailwind's content
 // scanner picks them up at build time.
 const LAYOUT = {
-  /** Sticky pane offset from viewport top. Must clear the fixed nav
-      (~168 px at lg+ with the bumped logo) plus a visible breathing
-      gap. `top-52` = 13rem = 208 px → ~40 px gap below the nav. */
-  stickyTop: "top-52",
+  /** Sticky pane offset from viewport top.
+   *
+   * Goal: clear the fixed nav (~168 px at lg+) AND visually centre
+   * the pane vertically inside the available area below the nav.
+   *
+   * `max(11rem, 22vh)` does both:
+   *   · 11rem = 176 px is enough to clear the nav with a small gap.
+   *   · 22vh ≈ (100vh − 55vh paneHeight)/2 ≈ vertical centre.
+   *
+   * On a 768 px viewport: max(176, 169) = 176 px → clears nav.
+   * On a 900 px viewport: max(176, 198) = 198 px → near-centre.
+   * On a 1200 px viewport: max(176, 264) = 264 px → centred. */
+  stickyTop: "top-[max(11rem,22vh)]",
   /** Sticky pane height — vh-based so it scales with viewport. 55vh
       keeps the pane comfortably below vertical centre on a typical
       laptop, with reasonable margin top and bottom. */
