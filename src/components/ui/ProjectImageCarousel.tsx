@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 const FALLBACK_IMG = "/proyectos/casa-Photoroom.webp";
-// 3 s per slide with a 0.9 s crossfade gives ~2.1 s of steady
-// display per image. Pure opacity crossfade (no scale, no
-// translate) — combining motion props on top of opacity made the
-// transition read as a generic "PowerPoint zoom". A clean fade
-// with the brand easing curve is what photo essays use.
-const CYCLE_MS = 3000;
-const CROSSFADE_S = 0.9;
+// Preview pacing — fast enough that a hover/scroll-by glance reveals
+// the whole set, slow enough that each image still reads as a frame.
+// 1.6 s per slide with a 0.55 s crossfade gives ~1.05 s of steady
+// display. Pure opacity crossfade (no scale, no translate) — adding
+// motion on top of opacity made the swap read as a generic
+// "PowerPoint zoom". The full project gallery (with no time limit)
+// lives in the lightbox; this carousel is just a hint that the card
+// has more depth.
+const CYCLE_MS = 1600;
+const CROSSFADE_S = 0.55;
 const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
 type Props = {

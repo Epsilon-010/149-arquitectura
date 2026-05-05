@@ -304,39 +304,46 @@ export function Hero() {
           </div>
           <h1 className="text-fg">
             {/* Width AND height-aware clamp:
-                `clamp(1.75rem, min(4vw, calc(22vh - 50px)), 5rem)`
+                `clamp(1.75rem, min(5.5vw, calc(22vh - 40px)), 8rem)`
 
-                Conservative `4vw` factor (was 5) — measured italic
-                Caviar Dreams "trasciende" actually renders at
-                ~11 char-units wide (wider than typical italic),
-                so 5vw ran the line past the cutout's curved edge
-                at lg sizes. 4vw guarantees ≥100 px horizontal
-                margin between the longest verb line and the
-                cutout boundary at every viewport from phone to 4K.
+                The hero cutout is 53 % wide × 38 % tall (see
+                `hero-bite` in ClipDefs). The cutout grows
+                proportionally with the viewport — so the headline
+                must too, otherwise it shrinks visually relative to
+                an ever-bigger empty paper area on wide screens.
 
-                The hero cutout is 53 % wide × 38 % tall. Either
-                axis can become the binding constraint depending on
-                the viewport's aspect ratio:
+                Earlier versions capped at 5rem (80 px), which felt
+                cramped on Mac/FHD because the cutout kept growing
+                while the text didn't. The 8rem (128 px) cap only
+                binds at ≥2330 px viewports — every common laptop /
+                desktop size falls back on the linear `5.5vw` rule,
+                so text-size and cutout-size scale together.
 
-                · Wide screens (Mac, monitor): cutout has plenty of
-                  vertical room → width is binding → `5.5vw` rules.
-                · Short / landscape phones (e.g. iPhone landscape
-                  at 812 × 375): cutout is only 142 px tall → 2-
-                  line headline can't fit → height becomes binding.
+                Width fit (worst case "que trasciende",
+                ~9 char-units wide italic with -0.025em tracking):
+                  · 1024 × 768:  56 px × 9 ≈ 506 px in  543 px →  37 px margin
+                  · 1280 × 800:  70 px × 9 ≈ 634 px in  678 px →  44 px
+                  · 1440 × 900:  79 px × 9 ≈ 713 px in  763 px →  50 px
+                  · 1920 × 1080:106 px × 9 ≈ 950 px in 1018 px →  68 px
+                  · 2560 × 1440:128 px × 9 ≈1152 px in 1357 px → 205 px (cap)
+                  · 3440 × 1440:128 px × 9 ≈1152 px in 1823 px → 671 px (cap)
 
-                The vertical fit budget:
-                  cutout_height = 0.38 × vh
-                  block_height  = 28 px (marker + gap) + 1.76 × font
-                  bottom_offset = ~40 px
-                Solving: font ≤ (0.38vh − 28 − 40) / 1.76 ≈ 22vh − 50px
+                Vertical fit budget (2 lines + marker + bottom
+                padding must clear cutout's 38 vh height):
+                  block_height = 0.88 × font × 2 (lines) + 22 px
+                                  (marker) + 40 px (bottom offset)
+                              = 1.76 × font + 62
+                  block_height ≤ 0.38 × vh
+                  font ≤ (0.38vh − 62) / 1.76 ≈ 21.6vh − 35
+                  → `22vh − 40px` is a safe round figure.
 
                 `min()` picks whichever constraint is tighter for
                 the current viewport; clamp's outer bounds keep the
-                font readable on tiny phones and from blowing up on
-                4K monitors. */}
+                font legible on tiny phones (28 px floor) and from
+                blowing up on 4K+ monitors (128 px cap). */}
             <span
               ref={lineOneRef}
-              className="font-display block leading-[0.88] text-[clamp(1.75rem,min(4vw,calc(22vh_-_50px)),5rem)]"
+              className="font-display block leading-[0.88] text-[clamp(1.75rem,min(5.5vw,calc(22vh_-_40px)),8rem)]"
               style={{
                 letterSpacing: "-0.025em",
               }}
@@ -345,7 +352,7 @@ export function Hero() {
             </span>
             <span
               ref={lineTwoRef}
-              className="font-display block italic leading-[0.88] text-[clamp(1.75rem,min(4vw,calc(22vh_-_50px)),5rem)]"
+              className="font-display block italic leading-[0.88] text-[clamp(1.75rem,min(5.5vw,calc(22vh_-_40px)),8rem)]"
               style={{
                 letterSpacing: "-0.025em",
                 opacity: 0.72,

@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { Reveal } from "../ui/Reveal";
 import { RevealText } from "../ui/RevealText";
 import { ProjectImageCarousel } from "../ui/ProjectImageCarousel";
+import { ProjectLightbox } from "../ui/ProjectLightbox";
 import { gsap, prefersReducedMotion } from "../../lib/motion";
 import { PROYECTOS, type Proyecto } from "../../data/proyectos";
 
@@ -10,25 +11,31 @@ function ProjectCard({
   p,
   ratio,
   biteId,
+  onOpen,
 }: {
   p: Proyecto;
   ratio: string;
   /** id of the SVG <clipPath> in ClipDefs that shapes this card.
       Each card gets a different bite so the grid never repeats. */
   biteId: string;
+  /** Open the shared lightbox at this project. The card itself doesn't
+      hold lightbox state — it lives one level up in <Proyectos /> so a
+      single overlay serves all 10 cards. */
+  onOpen: (p: Proyecto) => void;
 }) {
   return (
-    <a
-      href="#"
-      // Override the global :focus-visible 1px-outline with offset-4
-      // (defined in index.css). On a card whose visible image is
-      // clipped by an organic SVG bite shape, the rectangular outline
-      // doesn't match the card's actual silhouette — reads as a
-      // stray line "completing the rectangle" around it. Until the
-      // cards link somewhere (real project pages), there's no
-      // navigation to indicate.
-      className="group relative block focus-visible:outline-none"
-      aria-label={`Proyecto ${p.numero} — ${p.titulo}`}
+    <button
+      type="button"
+      onClick={() => onOpen(p)}
+      // Button (not <a href="#">) because the card opens an in-page
+      // gallery — there's no navigation. The previous href="#"
+      // jumped the page back to top on click. Override the global
+      // :focus-visible 1px-outline (defined in index.css): on a card
+      // whose visible image is clipped by an organic SVG bite shape,
+      // the rectangular outline doesn't match the silhouette — reads
+      // as a stray line "completing the rectangle" around it.
+      className="group relative block w-full text-left focus-visible:outline-none"
+      aria-label={`Ver galería: Proyecto ${p.numero} — ${p.titulo}`}
     >
       {/* Image stage — three nested layers because we have three
           distinct clip operations to compose:
@@ -69,7 +76,7 @@ function ProjectCard({
           {p.ciudad}
         </div>
       </div>
-    </a>
+    </button>
   );
 }
 
@@ -78,6 +85,9 @@ export function Proyectos() {
   // 10 projects, destructured for ergonomic JSX. If the count
   // changes, update both this destructuring and the JSX below.
   const [a, b, c, d, e, f, g, h, i, j] = PROYECTOS;
+  // Single shared lightbox — null means closed. Lifted here so all 10
+  // cards open the same overlay instead of each owning its own.
+  const [lightbox, setLightbox] = useState<Proyecto | null>(null);
 
   useGSAP(
     () => {
@@ -179,45 +189,53 @@ export function Proyectos() {
         <div className="grid grid-cols-12 gap-x-5 gap-y-16 sm:gap-x-8 sm:gap-y-20 md:gap-x-10 md:gap-y-24">
           {/* Row 1 */}
           <Reveal className="col-span-12 md:col-span-8">
-            <ProjectCard p={a} ratio="aspect-[16/10]" biteId="bite-1" />
+            <ProjectCard p={a} ratio="aspect-[16/10]" biteId="bite-1" onOpen={setLightbox} />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-4 md:mt-32" delay={1}>
-            <ProjectCard p={b} ratio="aspect-[3/4]" biteId="bite-2" />
+            <ProjectCard p={b} ratio="aspect-[3/4]" biteId="bite-2" onOpen={setLightbox} />
           </Reveal>
 
           {/* Row 2 */}
           <Reveal className="col-span-12 md:col-span-5">
-            <ProjectCard p={c} ratio="aspect-[4/5]" biteId="bite-3" />
+            <ProjectCard p={c} ratio="aspect-[4/5]" biteId="bite-3" onOpen={setLightbox} />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-7 md:mt-24" delay={1}>
-            <ProjectCard p={d} ratio="aspect-[16/10]" biteId="bite-4" />
+            <ProjectCard p={d} ratio="aspect-[16/10]" biteId="bite-4" onOpen={setLightbox} />
           </Reveal>
 
           {/* Row 3 */}
           <Reveal className="col-span-12 md:col-span-7">
-            <ProjectCard p={e} ratio="aspect-[16/10]" biteId="bite-5" />
+            <ProjectCard p={e} ratio="aspect-[16/10]" biteId="bite-5" onOpen={setLightbox} />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
-            <ProjectCard p={f} ratio="aspect-[4/5]" biteId="bite-6" />
+            <ProjectCard p={f} ratio="aspect-[4/5]" biteId="bite-6" onOpen={setLightbox} />
           </Reveal>
 
           {/* Row 4 */}
           <Reveal className="col-span-12 md:col-span-4">
-            <ProjectCard p={g} ratio="aspect-[3/4]" biteId="bite-2" />
+            <ProjectCard p={g} ratio="aspect-[3/4]" biteId="bite-2" onOpen={setLightbox} />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-8 md:mt-24" delay={1}>
-            <ProjectCard p={h} ratio="aspect-[16/10]" biteId="bite-1" />
+            <ProjectCard p={h} ratio="aspect-[16/10]" biteId="bite-1" onOpen={setLightbox} />
           </Reveal>
 
           {/* Row 5 */}
           <Reveal className="col-span-12 md:col-span-7">
-            <ProjectCard p={i} ratio="aspect-[16/10]" biteId="bite-4" />
+            <ProjectCard p={i} ratio="aspect-[16/10]" biteId="bite-4" onOpen={setLightbox} />
           </Reveal>
           <Reveal className="col-span-12 md:col-span-5 md:mt-32" delay={1}>
-            <ProjectCard p={j} ratio="aspect-[4/5]" biteId="bite-3" />
+            <ProjectCard p={j} ratio="aspect-[4/5]" biteId="bite-3" onOpen={setLightbox} />
           </Reveal>
         </div>
       </div>
+
+      {/* Single lightbox shared by all 10 cards. Mounts when `lightbox`
+          becomes non-null and unmounts on close — keeps the DOM cheap
+          when nothing is open. */}
+      <ProjectLightbox
+        project={lightbox}
+        onClose={() => setLightbox(null)}
+      />
     </section>
   );
 }
