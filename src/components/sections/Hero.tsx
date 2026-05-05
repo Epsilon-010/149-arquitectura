@@ -345,7 +345,7 @@ export function Hero() {
             </span>
             <span
               ref={lineTwoRef}
-              className="font-display block italic leading-[0.88] text-[clamp(1.75rem,6.5vw,7rem)] md:text-[clamp(2rem,8vw,8rem)]"
+              className="font-display block italic leading-[0.88] text-[clamp(1.75rem,min(4vw,calc(22vh_-_50px)),5rem)]"
               style={{
                 letterSpacing: "-0.025em",
                 opacity: 0.72,
